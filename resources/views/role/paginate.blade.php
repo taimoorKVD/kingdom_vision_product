@@ -12,7 +12,7 @@
                         <h3>Roles</h3>
                     </div>
                     <div class="float-right">
-                        @can('role-create')
+                        @can('roles.create')
                             <a class="btn btn-success btn-sm" href="{{ route('roles.create') }}"> Create New Role</a>
                         @endcan
                     </div>
@@ -38,13 +38,13 @@
                                             <i class="fa fa-eye"></i>
                                         </a>
 
-                                        @can('role-edit')
+                                        @can('roles.edit')
                                             <a class="btn-warning btn-sm mr-1" href="{{ route('roles.edit',$role->id) }}">
                                                 <i class="fa fa-edit"></i>
                                             </a>
                                         @endcan
 
-                                        @can('role-delete')
+                                        @can('roles.delete')
                                             <button class="btn-danger btn-sm" onclick="handleDelete( {{ $role->id }} )">
                                                 <i class="fa fa-trash"></i>
                                             </button>

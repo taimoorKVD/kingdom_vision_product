@@ -39,26 +39,24 @@
                     </a>
                 </li>
 
+                @can('users.list')
                 <li class="nav-item">
                     <a href="{{ route('users.index') }}" class="nav-link {{ request()->segment(2) == "users" ? 'active' : null }}">
                         <i class="nav-icon fas fa-user"></i>
                         <p>User Management</p>
                     </a>
                 </li>
+                @endcan
 
+                @can('roles.list')
                 <li class="nav-item">
                     <a href="{{ route('roles.index') }}" class="nav-link {{ request()->segment(2) == "roles" ? 'active' : null }}">
                         <i class="nav-icon fas fa-users"></i>
                         <p>Role Management</p>
                     </a>
                 </li>
+                @endcan
 
-                <li class="nav-item">
-                    <a href="{{ route('products.index') }}" class="nav-link {{ request()->segment(2) == "products" ? 'active' : null }}">
-                        <i class="nav-icon fas fa-users"></i>
-                        <p>Product Management</p>
-                    </a>
-                </li>
             </ul>
         </nav>
         <!-- /.sidebar-menu -->
