@@ -22,7 +22,6 @@ Auth::routes();
 Route::middleware('auth')->group(function(){
     Route::resource('admin/users', 'UserController');
     Route::resource('admin/roles', 'RoleController');
-    Route::resource('admin/products', 'ProductController');
     Route::get('admin/dashboard', 'HomeController@index')->name('admin.dashboard');
     Route::get('admin/profile', 'UserController@editMyProfile')->name('admin.profile');
 });

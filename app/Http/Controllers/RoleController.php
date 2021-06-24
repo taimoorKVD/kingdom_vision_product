@@ -2,91 +2,84 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use App\Http\Requests\CheckRoleRequest;
+use App\Repositories\RoleRepository;
 
 use Spatie\Permission\Models\Role;
-use Spatie\Permission\Models\Permission;
 
 class RoleController extends Controller
 {
-    function __construct()
+    private $roleRepository;
+
+    function __construct(RoleRepository $roleRepository)
     {
-        $this->middleware('permission:role-list|role-create|role-edit|role-delete', ['only' => ['index','store']]);
-        $this->middleware('permission:role-create', ['only' => ['create','store']]);
-        $this->middleware('permission:role-edit', ['only' => ['edit','update']]);
-        $this->middleware('permission:role-delete', ['only' => ['destroy']]);
+        $this->middleware('permission:roles.list|roles.create|roles.edit|roles.delete', ['only' => ['index','store']]);
+        $this->middleware('permission:roles.create', ['only' => ['create','store']]);
+        $this->middleware('permission:roles.edit', ['only' => ['edit','update']]);
+        $this->middleware('permission:roles.delete', ['only' => ['destroy']]);
+        $this->roleRepository = $roleRepository;
     }
 
-    public function index(Request $request)
+    public function index()
     {
-        $roles = Role::orderBy('created_at','DESC')->paginate(10);
-        return view('role.paginate',compact('roles'))
+        return view('role.paginate')
+            ->withRoles($this->roleRepository->fetchAll())
             ->with('i', (request()->input('page', 1) - 1) * 5);
     }
 
     public function create()
     {
-        $permission = Permission::get();
-        return view('role.create',compact('permission'));
+        return view('role.create')
+            ->withPermissions($this->roleRepository->show());
     }
 
-    public function store(Request $request)
+    public function store(CheckRoleRequest $crr)
     {
-        $this->validate($request, [
-            'name' => 'required|unique:roles,name',
-            'permission' => 'required',
-        ]);
+        $response = $this->roleRepository->store(request()->all());
+        if(!$response){
+            return redirect()
+                ->back()
+                ->with('error-message','Something went wrong! Try again.');
+        }
 
-        $role = Role::create(['name' => $request->input('name')]);
-        $role->syncPermissions($request->input('permission'));
-
-        return redirect()->route('roles.index')
-            ->with('success','Role created successfully');
+        return redirect()
+            ->route('roles.index')
+            ->with('success-message','Role created successfully');
     }
 
-    public function show($id)
+    public function show(Role $role)
     {
-        $role = Role::find($id);
-        $rolePermissions = Permission::join("role_has_permissions","role_has_permissions.permission_id","=","permissions.id")
-            ->where("role_has_permissions.role_id",$id)
-            ->get();
-
-        return view('role.show',compact('role','rolePermissions'));
+        return view('role.show')
+            ->withRole($role)
+            ->withPermissions($this->roleRepository->show($role));
     }
 
-    public function edit($id)
+    public function edit(Role $role)
     {
-        $role = Role::find($id);
-        $permission = Permission::get();
-        $rolePermissions = DB::table("role_has_permissions")->where("role_has_permissions.role_id",$id)
-            ->pluck('role_has_permissions.permission_id','role_has_permissions.permission_id')
-            ->all();
-
-        return view('role.edit',compact('role','permission','rolePermissions'));
+        return view('role.edit')
+        ->withRole($role)
+        ->withPermissions($this->roleRepository->edit());
     }
 
-    public function update(Request $request, $id)
+    public function update(CheckRoleRequest $crr, Role $role)
     {
-        $this->validate($request, [
-            'name' => 'required',
-            'permission' => 'required',
-        ]);
+        $response = $this->roleRepository->update($role, request()->all());
+        if(!$response){
+            return redirect()
+                ->back()
+                ->with('error-message','Something went wrong.');
+        }
 
-        $role = Role::find($id);
-        $role->name = $request->input('name');
-        $role->save();
-
-        $role->syncPermissions($request->input('permission'));
-
-        return redirect()->route('roles.index')
-            ->with('success','Role updated successfully');
+        return redirect()
+            ->route('roles.index')
+            ->with('success-message','Role updated successfully');
     }
 
-    public function destroy($id)
+    public function destroy(Role $role)
     {
-        DB::table("roles")->where('id',$id)->delete();
-        return redirect()->route('roles.index')
-            ->with('success','Role deleted successfully');
+        $role->delete();
+        return redirect()
+            ->route('roles.index')
+            ->with('success-message','Role deleted successfully');
     }
 }
