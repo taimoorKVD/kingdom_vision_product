@@ -15,19 +15,21 @@ class UserController extends Controller
     private $userRepository;
     public function __construct(UserRepository $userRepository)
     {
+        $this->middleware('auth');
         $this->userRepository = $userRepository;
+
     }
 
     public function index()
     {
-        return view('user.paginate')
+        return view('admin.user.paginate')
             ->withUsers($this->userRepository->all())
             ->withI((request()->input('page', 1) - 1) * 5);
     }
 
     public function create()
     {
-        return view('user.create')->withRoles(Role::pluck('name','name')->all());
+        return view('admin.user.create')->withRoles(Role::pluck('name','name')->all());
     }
 
     public function store(CheckUserRequest $cur)
@@ -46,12 +48,12 @@ class UserController extends Controller
 
     public function show(User $user)
     {
-        return view('user.show')->withUser($user);
+        return view('admin.user.show')->withUser($user);
     }
 
     public function edit(User $user)
     {
-        return view('user.edit')
+        return view('admin.user.edit')
             ->withUser($user)
             ->withRoles(Role::pluck('name','name')->all())
             ->withUserRole($user->roles->pluck('name','name')->all());
@@ -81,6 +83,6 @@ class UserController extends Controller
 
     public function editMyProfile()
     {
-        return view('user.profile')->withUser(auth()->user());
+        return view('admin.user.profile')->withUser(auth()->user());
     }
 }

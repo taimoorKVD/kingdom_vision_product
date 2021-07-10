@@ -1,17 +1,17 @@
-@include('layouts.includes.header')
+@include('admin.layouts.includes.header')
 
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
 
     <!-- Navbar -->
-   @include('layouts.includes.navbar')
+   @include('admin.layouts.includes.navbar')
 
     <!-- Main Sidebar Container -->
-    @include('layouts.includes.sidebar')
+    @include('admin.layouts.includes.sidebar')
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
-        @include('layouts.includes.content_page_header')
+        @include('admin.layouts.includes.content_page_header')
 
         <!-- Main content -->
         <div class="content">
@@ -36,4 +36,4 @@
 </div>
 <!-- ./wrapper -->
 </body>
-@include('layouts.includes.footer')
+@include('admin.layouts.includes.footer')

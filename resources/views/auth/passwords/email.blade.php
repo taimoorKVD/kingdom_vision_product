@@ -1,4 +1,4 @@
-@include('layouts.includes.header')
+@include('admin.layouts.includes.header')
 
 <div class="container d-flex justify-content-center mt-5">
 
@@ -47,4 +47,4 @@
 
 </div>
 
-@include('layouts.includes.footer')
+@include('admin.layouts.includes.footer')

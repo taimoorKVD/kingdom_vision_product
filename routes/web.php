@@ -14,14 +14,23 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return redirect('/login');
+    return redirect('admin/login');
 });
 
-Auth::routes();
+Route::prefix('admin')->group(function () {
+    Auth::routes();
+    Route::resource('users', 'UserController');
+    Route::resource('roles', 'RoleController');
+    Route::get('dashboard', 'HomeController@index')
+        ->name('admin.dashboard');
+    Route::get('profile', 'UserController@editMyProfile')
+        ->name('admin.profile');
+    Route::get('settings', 'Admin\SettingController@index')
+        ->name('settings.index');
+    Route::post('settings/email_configuration', 'Admin\SettingController@email_configuration')
+        ->name('settings.email-configure');
+    Route::get('settings/email_configuration_testing', 'Admin\SettingController@email_configuration_testing')
+        ->name('settings.test-email-configure');
 
-Route::middleware('auth')->group(function(){
-    Route::resource('admin/users', 'UserController');
-    Route::resource('admin/roles', 'RoleController');
-    Route::get('admin/dashboard', 'HomeController@index')->name('admin.dashboard');
-    Route::get('admin/profile', 'UserController@editMyProfile')->name('admin.profile');
 });
+

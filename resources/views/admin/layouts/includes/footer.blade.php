@@ -27,4 +27,7 @@
             $('#deleteModal').modal('show');
         }
     </script>
+
+    @stack('js')
+
 </html>

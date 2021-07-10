@@ -13,6 +13,7 @@ class RoleController extends Controller
 
     function __construct(RoleRepository $roleRepository)
     {
+        $this->middleware('auth');
         $this->middleware('permission:roles.list|roles.create|roles.edit|roles.delete', ['only' => ['index','store']]);
         $this->middleware('permission:roles.create', ['only' => ['create','store']]);
         $this->middleware('permission:roles.edit', ['only' => ['edit','update']]);
@@ -22,14 +23,14 @@ class RoleController extends Controller
 
     public function index()
     {
-        return view('role.paginate')
+        return view('admin.role.paginate')
             ->withRoles($this->roleRepository->fetchAll())
             ->with('i', (request()->input('page', 1) - 1) * 5);
     }
 
     public function create()
     {
-        return view('role.create')
+        return view('admin.role.create')
             ->withPermissions($this->roleRepository->show());
     }
 
@@ -49,14 +50,14 @@ class RoleController extends Controller
 
     public function show(Role $role)
     {
-        return view('role.show')
+        return view('admin.role.show')
             ->withRole($role)
             ->withPermissions($this->roleRepository->show($role));
     }
 
     public function edit(Role $role)
     {
-        return view('role.edit')
+        return view('admin.role.edit')
         ->withRole($role)
         ->withPermissions($this->roleRepository->edit());
     }
