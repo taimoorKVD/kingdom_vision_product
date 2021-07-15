@@ -1,8 +1,8 @@
-@extends('layouts.includes.dashboard')
+@extends('admin.layouts.includes.dashboard')
 
 @section('content')
 
-    @include('partial.alert')
+    @include('admin.partial.alert')
 
     <div class="row">
         <div class="col-lg-12 margin-tb">
@@ -79,6 +79,6 @@
         </div>
     </div>
 
-    @include('partial.modal')
+    @include('admin.partial.modal')
 
 @endsection
