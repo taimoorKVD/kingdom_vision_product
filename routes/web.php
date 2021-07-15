@@ -27,10 +27,14 @@ Route::prefix('admin')->group(function () {
         ->name('admin.profile');
     Route::get('settings', 'Admin\SettingController@index')
         ->name('settings.index');
-    Route::post('settings/email_configuration', 'Admin\SettingController@email_configuration')
-        ->name('settings.email-configure');
-    Route::get('settings/email_configuration_testing', 'Admin\SettingController@email_configuration_testing')
-        ->name('settings.test-email-configure');
+    Route::post('settings/store', 'Admin\SettingController@store')
+        ->name('settings.store');
+    Route::post('settings/email_connectivity_testing', 'Admin\SettingController@email_connectivity_testing')
+        ->name('settings.test-email-connectivity');
+    Route::get('settings/get_email_config', 'Admin\SettingController@get_email_config')
+        ->name('settings.get-email-config');
+    Route::get('settings/test', 'Admin\SettingController@test')
+        ->name('settings.test');
 
 });
 
