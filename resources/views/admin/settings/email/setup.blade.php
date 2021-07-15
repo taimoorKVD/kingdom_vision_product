@@ -46,9 +46,12 @@
                                                 Gmail {{ $emailKey == "Gmail" ? '(activated)' : '' }}</option>
                                             <option {{ $emailKey == "Mailtrap" ? 'selected' : '' }} value="Mailtrap">
                                                 Mailtrap {{ $emailKey == "Mailtrap" ? '(activated)' : '' }}</option>
+                                            <option {{ $emailKey == "Sendgrid" ? 'selected' : '' }} value="Sendgrid">
+                                                Sendgrid {{ $emailKey == "Sendgrid" ? '(activated)' : '' }}</option>
                                         </select>
                                     </div>
 
+                                    {{-- Gmail & Mailtrap --}}
                                     <div class="row {{ $emailKey !== "default" && $emailKey !== "empty" ? '' : 'd-none' }}"
                                          id="email_config_form">
 
@@ -145,6 +148,18 @@
                                             </div>
                                         </div>
                                     </div>
+                                    {{-- End Gmail & Mailtrap --}}
+
+                                    {{-- sendgrid --}}
+                                    <div class="row {{ $emailKey === "Sendgrid" && $emailKey !== "empty" ? '' : 'd-none' }}" id="sendgrid_row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label for="sendgrid_api_key">Sendgrid Api Key</label>
+                                                <input type="text" class="form-control" name="sendgrid_api_key" id="sendgrid_api_key">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {{-- End sendgrid --}}
 
                                     <div class="row">
                                         <div class="col-md-12">
@@ -271,11 +286,14 @@
             Email type
             */
             $('#email_type').on('change', function () {
-                if ($(this).val() !== "default") {
-                    $('#email_config_form').removeClass('d-none');
-                }
-                else{
+                if ($(this).val() === "default") {
                     $('#email_config_form').addClass('d-none');
+                }
+                else if($(this).val() === "Sendgrid") {
+                    $('#sendgrid_row').removeClass('d-none');
+                }
+                else {
+                    $('#email_config_form').removeClass('d-none');
                 }
 
                 $('.clear').val('');

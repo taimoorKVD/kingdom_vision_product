@@ -2,7 +2,7 @@
 
 namespace App\Repositories;
 
-use App\Mail\MyTestMail;
+use App\Mail\TestMail;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Admin\Setting;
@@ -146,7 +146,7 @@ class SettingRepository
             'body' => request()->body,
         ];
         try {
-            Mail::to(request()->to)->send(new MyTestMail($details));
+            Mail::to(request()->to)->send(new TestMail($details));
             return ['resp' => true, 'msg' => 'Email is sent successfully.'];
         } catch (\Exception $e) {
             return ['resp' => false, 'msg' => $e->getMessage()];

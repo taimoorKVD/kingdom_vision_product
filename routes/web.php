@@ -33,8 +33,7 @@ Route::prefix('admin')->group(function () {
         ->name('settings.test-email-connectivity');
     Route::get('settings/get_email_config', 'Admin\SettingController@get_email_config')
         ->name('settings.get-email-config');
-    Route::get('settings/test', 'Admin\SettingController@test')
-        ->name('settings.test');
-
+    Route::get('settings/elements', 'Admin\SettingController@elements')
+        ->name('settings.elements');
 });
 

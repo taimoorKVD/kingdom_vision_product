@@ -3,9 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Mail\MyTestMail;
 use App\Repositories\SettingRepository;
-use Illuminate\Support\Facades\Mail;
 use App\Models\Admin\Setting;
 
 class SettingController extends Controller
