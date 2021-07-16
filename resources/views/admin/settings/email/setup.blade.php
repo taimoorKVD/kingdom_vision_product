@@ -48,6 +48,8 @@
                                                 Mailtrap {{ $emailKey == "Mailtrap" ? '(activated)' : '' }}</option>
                                             <option {{ $emailKey == "Sendgrid" ? 'selected' : '' }} value="Sendgrid">
                                                 Sendgrid {{ $emailKey == "Sendgrid" ? '(activated)' : '' }}</option>
+                                            <option {{ $emailKey == "Mandrill" ? 'selected' : '' }} value="Mandrill">
+                                                Mandrill {{ $emailKey == "Mandrill" ? '(activated)' : '' }}</option>
                                         </select>
                                     </div>
 
@@ -94,7 +96,7 @@
                                                 <input type="text" class="form-control clear username" id="username"
                                                        name="username"
                                                        value="{{ isset($emailValue) && !empty($emailValue) ? $emailValue['username'] : '' }}">
-                                                <div class="invalid-feedback">
+                                                <div class="invalid-feedback user-error-msg">
                                                     The username field is empty.
                                                 </div>
                                             </div>
@@ -106,7 +108,7 @@
                                                 <input type="password" class="form-control clear secret" id="password"
                                                        name="password"
                                                        value="{{ isset($emailValue) && !empty($emailValue) ? $emailValue['password'] : '' }}">
-                                                <div class="invalid-feedback">
+                                                <div class="invalid-feedback pass-error-msg">
                                                     The password field is empty.
                                                 </div>
                                             </div>
@@ -150,17 +152,6 @@
                                     </div>
                                     {{-- End Gmail & Mailtrap --}}
 
-                                    {{-- sendgrid --}}
-                                    <div class="row {{ $emailKey === "Sendgrid" && $emailKey !== "empty" ? '' : 'd-none' }}" id="sendgrid_row">
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label for="sendgrid_api_key">Sendgrid Api Key</label>
-                                                <input type="text" class="form-control" name="sendgrid_api_key" id="sendgrid_api_key">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    {{-- End sendgrid --}}
-
                                     <div class="row">
                                         <div class="col-md-12">
                                             <hr>
@@ -183,6 +174,7 @@
                         <div id="step2-form" class="tab-pane">
                             <form id="email-connection-test" action="javascript:void(0)"
                                   method="POST">
+                                @csrf
                                 <div class="card card-body">
                                     <div class="row">
                                         <div class="col-md-4">
@@ -289,9 +281,6 @@
                 if ($(this).val() === "default") {
                     $('#email_config_form').addClass('d-none');
                 }
-                else if($(this).val() === "Sendgrid") {
-                    $('#sendgrid_row').removeClass('d-none');
-                }
                 else {
                     $('#email_config_form').removeClass('d-none');
                 }
@@ -337,7 +326,6 @@
                 $('#save-text').text('Saving...');
                 $('#password').removeClass('is-invalid');
 
-                var _token = $("input[name='_token']").val();
                 var form_data = $('#email-config-form').serialize();
                 $.ajax({
                     url: "{{ route('settings.store') }}",
@@ -410,20 +398,12 @@
                 $('#send-text').text('Sending...');
                 $('#to').removeClass('is-invalid');
 
-                var _token = $("input[name='_token']").val();
-                var to = $("input[name='to']").val();
-                var subject = $("input[name='subject']").val();
-                var body = $("input[name='body']").val();
+                var form_data = $('#email-connection-test').serialize();
 
                 $.ajax({
                     url: "{{ route('settings.test-email-connectivity') }}",
                     type:'POST',
-                    data: {
-                        _token:_token,
-                        to:to,
-                        subject:subject,
-                        body:body
-                    },
+                    data: form_data,
                     success: function(data) {
                         console.log(data);
                         if(data.resp === true)
@@ -445,13 +425,9 @@
                             $('.finish-setup-title').text('Congratulations');
                             $('.finish-setup-msg').text('Email configuration setup is successfully completed.');
                         }else{
-                            $("#submit_email_connect").attr('disabled', false);
-                            $('#send-spinner').addClass('d-none');
-                            $('#send-text').text('Send');
-
                             var error = '';
                             for (let i = 0; i < data.msg.length; ++i) {
-                                error += data.msg[i] + "\n";
+                                error += data.msg[i];
                             }
 
                             Swal.fire({
@@ -459,6 +435,30 @@
                                 title: 'Error',
                                 text: error,
                             });
+
+                            if(!data.config)
+                            {
+                                $('.progress-width').css('width', '33%');
+                                $('#step1').addClass('active');
+                                $('#step1-form').addClass('active');
+                                $('#step2').removeClass('active');
+                                $('#step2-form').removeClass('active');
+                                $('#email-connection-test').trigger("reset");
+                                $("#submit_email_connect").attr('disabled', false);
+                                $('#send-spinner').addClass('d-none');
+                                $('#send-text').text('Send');
+                                $('#submit-email-config-form').attr('disabled', false);
+                                $('#spinner').addClass('d-none');
+                                $('#save-text').text('Save');
+                                $('.username').addClass('is-invalid');
+                                $('.username').removeClass('d-none');
+                                $('.user-error-msg').text('Username is not authorized.');
+                                $('#password').addClass('is-invalid');
+                                $('#password').removeClass('d-none');
+                                $('.pass-error-msg').text('Password is not authorized.');
+                                return false;
+                            }
+
                             if($('#to').val() === '')
                             {
                                     $('#to').addClass('is-invalid');

@@ -25,12 +25,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        /*$result = Setting::where('name', 'active_email')->get()->first();
+        $result = Setting::where('name', 'active_email')->get()->first();
         if ($result)
         {
             $mail = json_decode($result->value, true);
-            /*dd($mail);*/
-
             $config = array(
                 'driver' => $mail['driver'],
                 'host' => $mail['host'],
@@ -43,6 +41,6 @@ class AppServiceProvider extends ServiceProvider
                 'pretend' => $mail['pretend'],
             );
             Config::set('mail', $config);
-        }*/
+        }
     }
 }

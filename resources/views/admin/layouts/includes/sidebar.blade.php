@@ -42,6 +42,7 @@
                     </a>
                 </li>
 
+                @if(request()->segment(2) != "settings")
                 @can('users.list')
                     <li class="nav-item">
                         <a href="{{ route('users.index') }}"
@@ -61,6 +62,23 @@
                         </a>
                     </li>
                 @endcan
+                    @else
+                    <li class="nav-item">
+                        <a href="{{ route('settings.index') }}"
+                           class="nav-link {{ request()->segment(2) == "settings" ? 'active' : null }}">
+                            <i class="nav-icon fas fa-users"></i>
+                            <p>Email Configuration</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('settings.index') }}"
+                           class="nav-link {{ request()->segment(2) == "elements" ? 'active' : null }}">
+                            <i class="nav-icon fas fa-users"></i>
+                            <p>Elements</p>
+                        </a>
+                    </li>
+                    @endif
+
 
             </ul>
         </nav>

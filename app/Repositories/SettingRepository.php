@@ -30,7 +30,7 @@ class SettingRepository
         }
     }
 
-    public function validate_data()
+    public function validate_email_config()
     {
         if(request()->email_type !== "default")
         {
@@ -48,15 +48,15 @@ class SettingRepository
                 return [ 'resp' => false, 'msg' => $validator->errors()->all() ];
             }
         }
-        return [ 'resp' => true, 'msg' => 'success' ];
+        return [ 'resp' => true, 'msg' => response('okay', 200) ];
     }
 
     /*
      * function store email configuration
      * */
-    public function store_email_configuration()
+    public function email_configuration()
     {
-        $validation_resp = $this->validate_data(request()->all());
+        $validation_resp = $this->validate_email_config(request()->all());
         if(!$validation_resp['resp']){
             return ['resp' => false, 'msg' => $validation_resp];
         }
@@ -76,10 +76,19 @@ class SettingRepository
             'sendmail' => '/usr/sbin/sendmail -bs',
             'pretend' => false,
         ];
+        try {
+            $this->store($email_config);
+            return [ 'resp' => true, 'msg' => response('okay', 200) ];
+        } catch (\Exception $e) {
+            return ['resp' => false, 'msg' => $e->getMessage()];
+        }
+    }
 
-        /*
-         * check if table is not empty
-         * */
+    /*
+     * check if table is not empty
+     * */
+    public function store($email_config)
+    {
         $result = Setting::where('name', 'email_configurations')->get()->first();
         if(isset($result) && !empty($result))
         {
@@ -100,7 +109,7 @@ class SettingRepository
                 $active_email['value'] = json_encode($email_config);
                 Setting::where('name','active_email')->update($active_email);
 
-                return ['resp' => true, 'msg' => 'Email is configured successfully.'];
+                return [ 'resp' => true, 'msg' => response('okay', 200) ];
             }
             catch (\Exception $e) {
                 return ['resp' => false, 'msg' => $e->getMessage()];
@@ -122,7 +131,7 @@ class SettingRepository
                 $data['value'] = json_encode($email_config);
                 Setting::insert($data);
 
-                return ['resp' => true, 'msg' => 'Email is configured successfully.'];
+                return true;
             }
             catch (\Exception $e) {
                 return ['resp' => false, 'msg' => $e->getMessage()];
@@ -137,19 +146,19 @@ class SettingRepository
         ]);
 
         if($validator->fails()){
-            return [ 'resp' => false, 'msg' => $validator->errors()->all() ];
+            return [ 'resp' => false, 'msg' => $validator->errors()->all(), 'config' => true ];
         }
-
         $details = [
-            'title' => 'Testing email from '.config('app.name'),
+            'title' => 'Email from '.config('app.name'),
             'subject' => request()->subject,
             'body' => request()->body,
         ];
+
         try {
             Mail::to(request()->to)->send(new TestMail($details));
-            return ['resp' => true, 'msg' => 'Email is sent successfully.'];
+            return [ 'resp' => true, 'msg' => response('okay', 200) ];
         } catch (\Exception $e) {
-            return ['resp' => false, 'msg' => $e->getMessage()];
+            return ['resp' => false, 'msg' => $e->getMessage(), 'config' => false ];
         }
     }
 }
