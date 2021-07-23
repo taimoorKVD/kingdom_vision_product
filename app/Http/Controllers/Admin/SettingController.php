@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Repositories\SettingRepository;
 use App\Models\Admin\Setting;
+use \Carbon\Carbon;
 
 class SettingController extends Controller
 {
@@ -47,5 +48,22 @@ class SettingController extends Controller
 
     public function get_email_config() {
         return $this->settingRepository->fetch_email_configurations(request()->all());
+    }
+
+    public function general_settings()
+    {
+        return view('admin.settings.general_settings')
+            ->withTimezones($this->settingRepository->get_timezones())
+            ->withCurrentTimezone($this->settingRepository->get_current_timezone());
+    }
+
+    public function update_general_settings()
+    {
+        $resp = $this->settingRepository->update_general_settings(request()->all());
+        if(!$resp['resp']) {
+            return ['resp' => false, 'msg' => $resp['msg']];
+        }
+        \Artisan::call('cache:clear');
+        return ['resp' => true, 'msg' => 'Successfully Updated'];
     }
 }

@@ -101,7 +101,7 @@
                 <i class="fa fa-user fa-lg"></i>
             </a>
             <div class="dropdown-menu dropdown-menu-right">
-                <a href="{{ route('settings.index') }}" class="dropdown-item">
+                <a href="{{ route('settings.general_settings') }}" class="dropdown-item">
                     Settings
                 </a>
                 <div class="dropdown-divider"></div>

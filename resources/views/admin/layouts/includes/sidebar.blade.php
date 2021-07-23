@@ -1,9 +1,10 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="index3.html" class="brand-link">
-        {{--        <img src="{{ asset('images/logo/company_logo.png') }}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity:.8">--}}
-        <span class="brand-text font-weight-light">
-            Kingdom Vision
+        <img src="{{  url('storage/app/'.config('app.logo')) }}" alt="{{ !empty(config('app.name')) ? config('app.name') : '' }}"
+             class="brand-image img-circle elevation-3" style="opacity:.8">
+        <span class="brand-text font-weight-light" style="font-size: 16px;">
+            {{ config('app.name', 'Laravel') }}
         </span>
     </a>
 
@@ -64,19 +65,27 @@
                 @endcan
                     @else
                     <li class="nav-item">
+                        <a href="{{ route('settings.general_settings') }}"
+                           class="nav-link {{ request()->segment(3) == "general_settings" ? 'active' : null }}">
+                            <i class="nav-icon fas fa-cog"></i>
+                            <p>General settings</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a href="{{ route('settings.index') }}"
-                           class="nav-link {{ request()->segment(2) == "settings" ? 'active' : null }}">
-                            <i class="nav-icon fas fa-users"></i>
+                           class="nav-link {{ request()->segment(2) == "settings" && request()->segment(3) == null ? 'active' : null }}">
+                            <i class="nav-icon fas fa-envelope"></i>
                             <p>Email Configuration</p>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a href="{{ route('settings.index') }}"
                            class="nav-link {{ request()->segment(2) == "elements" ? 'active' : null }}">
-                            <i class="nav-icon fas fa-users"></i>
+                            <i class="nav-icon fas fa-th"></i>
                             <p>Elements</p>
                         </a>
                     </li>
+
                     @endif
 
 

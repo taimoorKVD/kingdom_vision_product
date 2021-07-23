@@ -2,9 +2,13 @@
 
 namespace App\Repositories;
 
-use App\Mail\TestMail;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Storage;
+
+use App\Mail\TestMail;
+
+use App\Models\Timezone;
 use App\Models\Admin\Setting;
 
 class SettingRepository
@@ -131,7 +135,7 @@ class SettingRepository
                 $data['value'] = json_encode($email_config);
                 Setting::insert($data);
 
-                return true;
+                return [ 'resp' => true, 'msg' => response('okay', 200) ];
             }
             catch (\Exception $e) {
                 return ['resp' => false, 'msg' => $e->getMessage()];
@@ -159,6 +163,82 @@ class SettingRepository
             return [ 'resp' => true, 'msg' => response('okay', 200) ];
         } catch (\Exception $e) {
             return ['resp' => false, 'msg' => $e->getMessage(), 'config' => false ];
+        }
+    }
+
+    public function get_current_timezone()
+    {
+        return Setting::where('name', 'current_timezone')->get()->first();
+    }
+
+    public function get_timezones()
+    {
+        return Timezone::all();
+    }
+
+    public function update_general_settings()
+    {
+        $result = Setting::where('name', 'general_settings')->get()->first();
+        if(isset($result) && !empty($result))
+        {
+            $collection = json_decode($result->value, true);
+            try {
+
+                $app_logo = '';
+                if (request()->file('app_logo')) {
+                    Storage::delete($collection['app_logo']);
+                    $app_logo .= request()->app_logo->store('app_images');
+                }
+
+                $app_favicon = '';
+                if (request()->file('app_favicon')) {
+                    Storage::delete($collection['app_favicon']);
+                    $app_favicon .= request()->app_favicon->store('app_images');
+                }
+
+                $new_general_settings = [
+                    'app_name' => request()->app_name ? request()->app_name : $collection['app_name'],
+                    'app_logo' => request()->app_logo ? $app_logo : $collection['app_logo'],
+                    'app_favicon' => request()->app_favicon ? $app_favicon : $collection['app_favicon'],
+                    'app_timezone' => request()->timezone ? request()->timezone : $collection['timezone'],
+                ];
+                $data['value'] = json_encode($new_general_settings);
+                Setting::where('name','general_settings')->update($data);
+
+                return ['resp' => true, 'msg' => response('okay', 200)];
+            }
+            catch (\Exception $e) {
+                return ['resp' => false, 'msg' => $e->getMessage()];
+            }
+        }
+        else {
+            try {
+
+                $app_logo = '';
+                if (request()->file('app_logo')) {
+                    $app_logo .= request()->app_logo->store('app_images');
+                }
+
+                $app_favicon = '';
+                if (request()->file('app_favicon')) {
+                    $app_favicon .= request()->app_favicon->store('app_images');
+                }
+
+                $general_settings = [
+                    'app_name' => request()->app_name ? request()->app_name : 'Laravel',
+                    'app_logo' => request()->app_logo ? $app_logo : 'public/default_images/not_uploaded.png',
+                    'app_favicon' => request()->app_favicon ? $app_favicon : 'public/default_images/not_uploaded.png',
+                    'app_timezone' => request()->timezone ? request()->timezone : 'UTC',
+                ];
+                $data['name'] = 'general_settings';
+                $data['value'] = json_encode($general_settings);
+                Setting::insert($data);
+
+                return [ 'resp' => true, 'msg' => response('okay', 200)];
+            }
+            catch (\Exception $e) {
+                return ['resp' => false, 'msg' => $e->getMessage()];
+            }
         }
     }
 }

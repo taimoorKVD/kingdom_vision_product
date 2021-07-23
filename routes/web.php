@@ -35,5 +35,9 @@ Route::prefix('admin')->group(function () {
         ->name('settings.get-email-config');
     Route::get('settings/elements', 'Admin\SettingController@elements')
         ->name('settings.elements');
+    Route::get('settings/general_settings', 'Admin\SettingController@general_settings')
+        ->name('settings.general_settings');
+    Route::post('settings/update_general_settings', 'Admin\SettingController@update_general_settings')
+        ->name('settings.update_general_settings');
 });
 

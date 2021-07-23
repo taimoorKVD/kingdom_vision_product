@@ -48,8 +48,6 @@
                                                 Mailtrap {{ $emailKey == "Mailtrap" ? '(activated)' : '' }}</option>
                                             <option {{ $emailKey == "Sendgrid" ? 'selected' : '' }} value="Sendgrid">
                                                 Sendgrid {{ $emailKey == "Sendgrid" ? '(activated)' : '' }}</option>
-                                            <option {{ $emailKey == "Mandrill" ? 'selected' : '' }} value="Mandrill">
-                                                Mandrill {{ $emailKey == "Mandrill" ? '(activated)' : '' }}</option>
                                         </select>
                                     </div>
 
@@ -196,8 +194,8 @@
 
                                         <div class="col-md-12">
                                             <div class="form-group">
-                                                <input id="body" type="hidden" name="body">
-                                                <trix-editor input="body"></trix-editor>
+                                                <label for="body">Content</label>
+                                                <textarea id="body" type="text" name="body" class="form-control" style="resize: none;"></textarea>
                                             </div>
                                         </div>
 
@@ -249,63 +247,41 @@
 @endsection
 
 @section('css')
-
     <link href="{{ asset('css/step-progress-bar.css') }}" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/trix/1.3.1/trix.css"/>
-
 @endsection
 
-@push('js')
-
+@section('scripts')
     <script src="{{ asset('js/step-progress-bar.js') }}"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/trix/1.3.1/trix.js"></script>
-
     <script>
         $(document).ready(function () {
-            const Toast = Swal.mixin({
-                toast: true,
-                position: 'top-end',
-                showConfirmButton: false,
-                timer: 3000,
-                timerProgressBar: true,
-                didOpen: (toast) => {
-                    toast.addEventListener('mouseenter', Swal.stopTimer)
-                    toast.addEventListener('mouseleave', Swal.resumeTimer)
-                }
-            });
-
             /*
             Email type
             */
             $('#email_type').on('change', function () {
+                $('#email_config_form').removeClass('d-none');
                 if ($(this).val() === "default") {
                     $('#email_config_form').addClass('d-none');
                 }
-                else {
-                    $('#email_config_form').removeClass('d-none');
-                }
 
-                $('.clear').val('');
-                $('.clear').removeClass('is-invalid');
-
+                $('.clear').val('').removeClass('is-invalid');
                 $.ajax({
                     url: "{{ route('settings.get-email-config') }}",
                     type:"GET",
                     data:{
-                        "_token": "{{ csrf_token() }}",
                         "email_type": $(this).val()
                     },
                     success:function(resp){
                         if(resp)
                         {
-                            $('input[name=driver]').val(resp.driver);
-                            $('input[name=host]').val(resp.host);
-                            $('input[name=port]').val(resp.port);
-                            $('input[name=username]').val(resp.username);
-                            $('input[name=password]').val(resp.password);
-                            $('input[name=encryption]').val(resp.encryption);
-                            $('input[name=address]').val(resp.from.address);
-                            $('input[name=name]').val(resp.from.name);
+                            let frmSmtp = $('#email-config-form');
+                            frmSmtp.find('input[name=driver]').val(resp.driver);
+                            frmSmtp.find('input[name=host]').val(resp.host);
+                            frmSmtp.find('input[name=port]').val(resp.port);
+                            frmSmtp.find('input[name=username]').val(resp.username);
+                            frmSmtp.find('input[name=password]').val(resp.password);
+                            frmSmtp.find('input[name=encryption]').val(resp.encryption);
+                            frmSmtp.find('input[name=address]').val(resp.from.address);
+                            frmSmtp.find('input[name=name]').val(resp.from.name);
                         }
                     },
                 });
@@ -317,20 +293,17 @@
             /*
              Email Configuration From
              */
-            {{--{{ route('settings.email-configure') }}--}}
-            $("#submit-email-config-form").click(function(e){
+            $("#email-config-form").submit(function(e){
                 e.preventDefault();
 
                 $(this).attr('disabled', true);
                 $('#spinner').removeClass('d-none');
                 $('#save-text').text('Saving...');
                 $('#password').removeClass('is-invalid');
-
-                var form_data = $('#email-config-form').serialize();
                 $.ajax({
                     url: "{{ route('settings.store') }}",
                     type:'POST',
-                    data:form_data,
+                    data:$(this).serialize(),
                     success: function(data) {
                         if(data.resp === true)
                         {
@@ -390,20 +363,17 @@
             /*
             Connectivity form submit
             */
-            $("#submit_email_connect").click(function(e){
+            $("#email-connection-test").submit(function(e){
                 e.preventDefault();
 
-                $(this).attr('disabled', true);
+                $('#submit_email_connect').attr('disabled', true);
                 $('#send-spinner').removeClass('d-none');
                 $('#send-text').text('Sending...');
                 $('#to').removeClass('is-invalid');
-
-                var form_data = $('#email-connection-test').serialize();
-
                 $.ajax({
                     url: "{{ route('settings.test-email-connectivity') }}",
                     type:'POST',
-                    data: form_data,
+                    data: $(this).serialize(),
                     success: function(data) {
                         console.log(data);
                         if(data.resp === true)
@@ -463,6 +433,9 @@
                             {
                                     $('#to').addClass('is-invalid');
                                     $('#to').removeClass('d-none');
+                                    $('#submit_email_connect').attr('disabled', false);
+                                    $('#send-spinner').addClass('d-none');
+                                    $('#send-text').text('Send');
                             }
                         }
                     }
@@ -474,4 +447,4 @@
             */
         });
     </script>
-@endpush
+@endsection
