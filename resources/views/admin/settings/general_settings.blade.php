@@ -188,7 +188,7 @@
                 let limit = parseInt("{{ config('constant.max_img_size') }}");
                 if (input.files[0].size > limit) {
                     userfile.val('');
-                    preview_image.prop('src', '{{ asset('storage/no_image.jpg') }}');
+                    preview_image.prop('src', '{{ asset('storage/app/public/default_images/upload.png') }}');
                     remove_preview.css('display', 'none');
                     upload_msg.html('<p class="upload_error">File size should not exceed 1MB.</p>');
                     return false;
@@ -211,7 +211,7 @@
                     reader.readAsDataURL(input.files[0]);
                 } else {
                     userfile.val('');
-                    preview_image.prop('src', '{{ asset('storage/no_image.jpg') }}');
+                    preview_image.prop('src', '{{ asset('storage/app/public/default_images/upload.png') }}');
                     remove_preview.css('display', 'none');
                     upload_msg.html('<p class="upload_error">Only JPEG and PNG formats are allowed.</p>');
                 }
@@ -225,7 +225,7 @@
 
         $('.remove_preview').on('click', function () {
             let target = $($(this).data('toggle'));
-            target.find('.preview_image').prop('src', '{{ url('storage/app/app_images/upload.png') }}');
+            target.find('.preview_image').prop('src', '{{ url('storage/app/public/default_images/upload.png') }}');
             $(this).css('display', 'none');
             target.find('.userfile').val('');
             if ($(this).data('toggle') === $(this).data('toggle')) {
