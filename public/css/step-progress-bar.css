@@ -1,0 +1,137 @@
+*{
+    font-family: "Font Awesome 5 Free";
+}
+#main-div #progressbar{
+    text-align: center;
+    position: relative;
+    margin-top: 20px
+}
+
+#main-div fieldset {
+    background: white;
+    border: 0 none;
+    border-radius: 0.5rem;
+    box-sizing: border-box;
+    width: 100%;
+    margin: 0;
+    padding-bottom: 20px;
+    position: relative
+}
+
+.finish {
+    text-align: center
+}
+
+#main-div fieldset:not(:first-of-type) {
+    display: none
+}
+
+#main-div .previous-step, .next-step {
+    width: 100px;
+    font-weight: bold;
+    color: white;
+    border: 0 none;
+    border-radius: 0px;
+    cursor: pointer;
+    padding: 10px 5px;
+    margin: 10px 5px 10px 0px;
+    float: right
+}
+
+.form, .previous-step {
+    background: #616161;
+}
+
+.form, .next-step {
+    background: #2F8D46;
+}
+
+#main-div .previous-step:hover,
+#main-div .previous-step:focus {
+    background-color: #000000
+}
+
+#main-div .next-step:hover,
+#main-div .next-step:focus {
+    background-color: #2F8D46
+}
+
+.text {
+    color: #2F8D46;
+    font-weight: normal
+}
+
+#progressbar {
+    margin-bottom: 30px;
+    overflow: hidden;
+    color: lightgrey
+}
+
+#progressbar .active {
+    color: #2F8D46
+}
+
+#progressbar li {
+    list-style-type: none;
+    font-size: 15px;
+    width: 25%;
+    float: left;
+    position: relative;
+    font-weight: 400
+}
+
+#progressbar #step1:before {
+    content: "\f0e0";
+    font-weight:900;
+}
+
+#progressbar #step2:before {
+    content: "\f074";
+    font-weight:900;
+}
+
+#progressbar #step3:before {
+    content: "\f00c";
+    font-weight:900;
+}
+
+#progressbar li:before {
+    width: 50px;
+    height: 50px;
+    line-height: 45px;
+    display: block;
+    font-size: 20px;
+    color: #ffffff;
+    background: lightgray;
+    border-radius: 50%;
+    margin: 0 auto 10px auto;
+    padding: 2px
+}
+
+#progressbar li:after {
+    content: "";
+    width: 100%;
+    height: 2px;
+    background: lightgray;
+    position: absolute;
+    left: 0;
+    top: 25px;
+    z-index: -1
+}
+
+#progressbar li.active:before,
+#progressbar li.active:after {
+    background: #2F8D46
+}
+
+.progress {
+    height: 10px
+}
+
+.progress-bar {
+    background-color: #2F8D46
+}
+
+.secret{
+    -webkit-text-security: disc;
+}
