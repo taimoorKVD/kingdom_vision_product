@@ -21,10 +21,12 @@ Route::prefix('admin')->group(function () {
     Auth::routes();
     Route::resource('users', 'UserController');
     Route::resource('roles', 'RoleController');
+    Route::resource('profile', 'Admin\ProfileController');
+    Route::post('update-profile', 'Admin\ProfileController@update_profile');
+    Route::post('fetch-states', 'Admin\ProfileController@fetch_states');
+    Route::post('fetch-cities', 'Admin\ProfileController@fetch_cities');
     Route::get('dashboard', 'HomeController@index')
         ->name('admin.dashboard');
-    Route::get('profile', 'UserController@editMyProfile')
-        ->name('admin.profile');
     Route::get('settings', 'Admin\SettingController@index')
         ->name('settings.index');
     Route::post('settings/store', 'Admin\SettingController@store')

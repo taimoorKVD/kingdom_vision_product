@@ -80,9 +80,4 @@ class UserController extends Controller
             ->route('users.index')
             ->with('success-message','User deleted successfully');
     }
-
-    public function editMyProfile()
-    {
-        return view('admin.user.profile')->withUser(auth()->user());
-    }
 }

@@ -2,13 +2,13 @@
 
 namespace App\Repositories;
 
+use App\Models\Admin\Timezone;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
 
 use App\Mail\TestMail;
 
-use App\Models\Timezone;
 use App\Models\Admin\Setting;
 
 class SettingRepository

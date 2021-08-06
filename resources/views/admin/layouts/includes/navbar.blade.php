@@ -105,7 +105,7 @@
                     Settings
                 </a>
                 <div class="dropdown-divider"></div>
-                <a href="{{ route('admin.profile') }}" class="dropdown-item">
+                <a href="{{ route('profile.index') }}" class="dropdown-item">
                     View Profile
                 </a>
                 <div class="dropdown-divider"></div>
