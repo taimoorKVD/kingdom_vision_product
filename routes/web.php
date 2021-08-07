@@ -19,14 +19,30 @@ Route::get('/', function () {
 
 Route::prefix('admin')->group(function () {
     Auth::routes();
-    Route::resource('users', 'UserController');
-    Route::resource('roles', 'RoleController');
+
+    /* USER MANAGEMENT ROUTES */
+    Route::resource('users', 'Admin\UserController');
+    Route::get('/user/listing', 'Admin\UserController@listing')->name('user.listing');
+    /* END USER MANAGEMENT ROUTES */
+
+    /* ROLE MANAGEMENT ROUTES */
+    Route::resource('roles', 'Admin\RoleController');
+    Route::get('/role/listing', 'Admin\RoleController@listing')->name('role.listing');
+    /* END ROLE MANAGEMENT ROUTES */
+
+    /* ADMIN PROFILE ROUTES */
     Route::resource('profile', 'Admin\ProfileController');
     Route::post('update-profile', 'Admin\ProfileController@update_profile');
     Route::post('fetch-states', 'Admin\ProfileController@fetch_states');
     Route::post('fetch-cities', 'Admin\ProfileController@fetch_cities');
+    /* END ADMIN PROFILE ROUTES */
+
+    /* DASHBOARD ROUTES */
     Route::get('dashboard', 'HomeController@index')
         ->name('admin.dashboard');
+    /* END DASHBOARD ROUTES */
+
+    /* SETTINGS ROUTES - GENERAL SETTINGS ROUTES */
     Route::get('settings', 'Admin\SettingController@index')
         ->name('settings.index');
     Route::post('settings/store', 'Admin\SettingController@store')
@@ -41,5 +57,6 @@ Route::prefix('admin')->group(function () {
         ->name('settings.general_settings');
     Route::post('settings/update_general_settings', 'Admin\SettingController@update_general_settings')
         ->name('settings.update_general_settings');
+    /* END SETTINGS ROUTES - GENERAL SETTINGS ROUTES */
 });
 

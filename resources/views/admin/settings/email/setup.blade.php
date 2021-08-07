@@ -60,7 +60,7 @@
                                                 <label for="driver">Driver</label>
                                                 <input type="text" class="form-control clear driver" id="driver" name="driver"
                                                        value="{{ isset($emailValue) && !empty($emailValue) ? $emailValue['driver'] : '' }}">
-                                                <div class="invalid-feedback">
+                                                <div class="invalid-feedback d-none">
                                                     The driver field is empty.
                                                 </div>
                                             </div>
@@ -71,7 +71,7 @@
                                                 <label for="host">Host</label>
                                                 <input type="text" class="form-control clear host" id="host" name="host"
                                                        value="{{ isset($emailValue) && !empty($emailValue) ? $emailValue['host'] : '' }}">
-                                                <div class="invalid-feedback">
+                                                <div class="invalid-feedback d-none">
                                                     The host field is empty.
                                                 </div>
                                             </div>
@@ -82,7 +82,7 @@
                                                 <label for="port">Port</label>
                                                 <input type="text" class="form-control clear port" id="port" name="port"
                                                        value="{{ isset($emailValue) && !empty($emailValue) ? $emailValue['port'] : '' }}">
-                                                <div class="invalid-feedback">
+                                                <div class="invalid-feedback d-none">
                                                     The port field is empty.
                                                 </div>
                                             </div>
@@ -94,7 +94,7 @@
                                                 <input type="text" class="form-control clear username" id="username"
                                                        name="username"
                                                        value="{{ isset($emailValue) && !empty($emailValue) ? $emailValue['username'] : '' }}">
-                                                <div class="invalid-feedback user-error-msg">
+                                                <div class="invalid-feedback d-none user-error-msg">
                                                     The username field is empty.
                                                 </div>
                                             </div>
@@ -106,7 +106,7 @@
                                                 <input type="password" class="form-control clear secret" id="password"
                                                        name="password"
                                                        value="{{ isset($emailValue) && !empty($emailValue) ? $emailValue['password'] : '' }}">
-                                                <div class="invalid-feedback pass-error-msg">
+                                                <div class="invalid-feedback d-none pass-error-msg">
                                                     The password field is empty.
                                                 </div>
                                             </div>
@@ -118,7 +118,7 @@
                                                 <input type="text" class="form-control clear encryption" id="encryption"
                                                        name="encryption"
                                                        value="{{ isset($emailValue) && !empty($emailValue) ? $emailValue['encryption'] : '' }}">
-                                                <div class="invalid-feedback">
+                                                <div class="invalid-feedback d-none">
                                                     The encryption field is empty.
                                                 </div>
                                             </div>
@@ -130,7 +130,7 @@
                                                 <input type="text" class="form-control clear address" id="address"
                                                        name="address"
                                                        value="{{ isset($emailValue) && !empty($emailValue) ? $emailValue['from']['address'] : '' }}">
-                                                <div class="invalid-feedback">
+                                                <div class="invalid-feedback d-none">
                                                     The driver field is empty.
                                                 </div>
                                             </div>
@@ -141,7 +141,7 @@
                                                 <label for="name">App Name</label>
                                                 <input type="text" class="form-control clear name" id="name" name="name"
                                                        value="{{ isset($emailValue) && !empty($emailValue) ? $emailValue['from']['name'] : '' }}">
-                                                <div class="invalid-feedback">
+                                                <div class="invalid-feedback d-none">
                                                     The app name field is empty.
                                                 </div>
 
@@ -348,7 +348,7 @@
                                 $('#password').removeClass('d-none');
                             }
 
-
+                            $('.invalid-feedback').removeClass('d-none');
                             $('#submit-email-config-form').attr('disabled', false);
                             $('#spinner').addClass('d-none');
                             $('#save-text').text('Save');

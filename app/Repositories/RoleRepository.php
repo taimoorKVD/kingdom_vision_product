@@ -3,16 +3,47 @@
 
 namespace App\Repositories;
 
+use App\Http\Helper\Admin\ListingHelper;
+use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
 class RoleRepository
 {
-    public function fetchAll(){
-        return Role::orderBy('created_at','DESC')
-            ->paginate(10);
-    }
+    public function role_listing() {
+        $per_page = ListingHelper::per_page();
+        $query = Role::select('*', DB::raw("(SELECT count(roles.id) FROM roles) AS total_roles"));
 
+        /*
+         * SEARCH ROLE BY NAME
+         * CREATED AT 7 AUG, 2021
+         * */
+        if(request()->name){
+            $name = request()->name;
+            $query = $query->where(function ($q) use ($name) {
+                $q->where('name', 'like', "%$name%");
+            });
+        }
+
+        /*
+         * SEARCH USER BY ANYTHING
+         * CREATED AT 7 AUG, 2021
+         *
+         * */
+        if(request()->search){
+            $search = request()->search;
+            $query = $query->where(function ($q) use ($search) {
+                $q->where('id', 'like', "%$search%")
+                    ->orWhere('name', 'like', "%$search%")
+                    ->orWhere('guard_name', 'like', "%$search%")
+                    ->orWhere('created_at', 'like', "%$search%");
+            });
+        }
+
+        return $query->orderByRaw("CASE WHEN total_roles > 0 THEN 1 ELSE 2 END ASC")
+            ->orderBy('total_roles', 'desc')->paginate($per_page)
+            ->appends(request()->query());
+    }
     public function show()
     {
         return Permission::where('name','LIKE','%s.list')

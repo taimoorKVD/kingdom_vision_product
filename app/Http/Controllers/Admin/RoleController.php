@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\CheckRoleRequest;
 use App\Repositories\RoleRepository;
 
@@ -23,15 +24,24 @@ class RoleController extends Controller
 
     public function index()
     {
-        return view('admin.role.paginate')
-            ->withRoles($this->roleRepository->fetchAll())
-            ->with('i', (request()->input('page', 1) - 1) * 5);
+        return view('admin.role.index')
+            ->withTitle('Roles')
+            ->withAddBtnRoute(route('roles.create'));
+    }
+
+    public function listing()
+    {
+        return view('admin.role.listing')
+            ->withRoles($this->roleRepository->role_listing(request()->all()))
+            ->withI((request()->input('page', 1) - 1) * 5);
     }
 
     public function create()
     {
         return view('admin.role.create')
-            ->withPermissions($this->roleRepository->show());
+            ->withPermissions($this->roleRepository->show())
+            ->withTitle('Roles > Add New Role')
+            ->withBackBtnRoute(route('roles.index'));
     }
 
     public function store(CheckRoleRequest $crr)
@@ -52,14 +62,18 @@ class RoleController extends Controller
     {
         return view('admin.role.show')
             ->withRole($role)
+            ->withTitle('Roles > Show Role')
+            ->withBackBtnRoute(route('roles.index'))
             ->withPermissions($this->roleRepository->show($role));
     }
 
     public function edit(Role $role)
     {
         return view('admin.role.edit')
-        ->withRole($role)
-        ->withPermissions($this->roleRepository->edit());
+            ->withRole($role)
+            ->withTitle('Roles > Edit Role')
+            ->withBackBtnRoute(route('roles.index'))
+            ->withPermissions($this->roleRepository->edit());
     }
 
     public function update(CheckRoleRequest $crr, Role $role)

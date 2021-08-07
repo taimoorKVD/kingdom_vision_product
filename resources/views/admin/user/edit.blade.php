@@ -2,19 +2,11 @@
 
 @section('content')
 
-    @include('admin.partial.alert')
+    @include('admin.layouts.includes.page-content-header')
 
     <div class="row">
         <div class="col-lg-12 margin-tb">
             <div class="card card-secondary card-outline">
-                <div class="card-header">
-                    <div class="card-title float-left">
-                        <h3>Edit User</h3>
-                    </div>
-                    <div class="float-right">
-                        <a class="btn btn-info btn-sm" href="{{ route('users.index') }}"> Back</a>
-                    </div>
-                </div>
                 {!! Form::model($user, ['method' => 'PATCH','route' => ['users.update', $user->id]]) !!}
                 <div class="card-body">
                     <div class="row">

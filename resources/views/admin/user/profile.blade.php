@@ -13,9 +13,13 @@
         input[type=number] {
             -moz-appearance: textfield;
         }
+        .select2-container {
+            width: 85% !important;
+        }
         .select2-container--default.select2-container--disabled .select2-selection--single {
             background-color: #fff !important;
         }
+
         .form-control:disabled, .form-control[readonly] {
             background-color: #fff !important;
         }
@@ -138,8 +142,8 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text fa fa-flag"></span>
                                     </div>
-                                    <input type="text" class="form-control" id="current_state" value="{{ $state->name }}">
-                                    <input type="hidden" name="state" value="{{ $state->id }}">
+                                    <input type="text" class="form-control" id="current_state" value="{{ isset($state->name) && !empty($state->name) ? $state->name : null }}">
+                                    <input type="hidden" name="state" value="{{ isset($state->id) && !empty($state->id) ? $state->id : null }}">
                                     <select class="form-control d-none" name="state" id="state">
                                         <option value="" selected disabled>Select your state</option>
                                     </select>
@@ -151,8 +155,8 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text fa fa-city"></span>
                                     </div>
-                                    <input type="text" class="form-control" id="current_city" value="{{ $city->name }}">
-                                    <input type="hidden" name="city" value="{{ $city->id }}">
+                                    <input type="text" class="form-control" id="current_city" value="{{ isset($city->name) && !empty($city->name) ? $city->name : null }}">
+                                    <input type="hidden" name="city" value="{{ isset($city->id) && !empty($city->id) ? $city->id : null }}">
                                     <select class="form-control d-none" name="city" id="city" disabled>
                                         <option value="" selected disabled>Select your city</option>
                                     </select>
@@ -203,6 +207,7 @@
     <script>
         $(document).ready(function ($) {
             $('.select2').select2();
+
             flatpickr("#dob", {
                 /*enableTime:true,
                 enableSeconds: true,*/

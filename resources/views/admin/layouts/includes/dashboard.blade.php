@@ -11,8 +11,6 @@
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
-        @include('admin.layouts.includes.content_page_header')
-
         <!-- Main content -->
         <div class="content">
             <div class="container-fluid">

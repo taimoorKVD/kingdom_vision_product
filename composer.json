@@ -46,7 +46,10 @@
             "database/factories"
         ],
         "files": [
-            "app/Http/Helper/Admin/ProfileHelper.php"
+            "app/Http/Helper/Admin/ListingHelper.php",
+            "app/Http/Helper/Admin/ProfileHelper.php",
+            "app/Http/Helper/Admin/UserManagementHelper.php",
+            "app/Http/Helper/Admin/RoleManagementHelper.php"
         ]
     },
     "autoload-dev": {

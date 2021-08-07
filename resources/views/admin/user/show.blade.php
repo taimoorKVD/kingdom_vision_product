@@ -1,17 +1,12 @@
 @extends('admin.layouts.includes.dashboard')
 
 @section('content')
+
+    @include('admin.layouts.includes.page-content-header')
+
     <div class="row">
         <div class="col-lg-12 margin-tb">
             <div class="card card-secondary card-outline">
-                <div class="card-header">
-                    <div class="card-title float-left">
-                        <h3>User Details</h3>
-                    </div>
-                    <div class="float-right">
-                        <a href="{{ route('users.index') }}" class="btn btn-info btn-sm">Back</a>
-                    </div>
-                </div>
                 <div class="card-body">
 
                     <!-- Profile Image -->
@@ -19,14 +14,14 @@
                         <div class="card-body box-profile">
                             <div class="text-center">
                                 <img class="profile-user-img img-fluid img-circle"
-                                     src="../../dist/img/user4-128x128.jpg" alt="User profile picture">
+                                     src="{{ isset($user->profile_photo) ? url('storage/app/'.$user->profile_photo) : url('storage/app/public/default_images/upload.png') }}" alt="{{ $user->name }}">
                             </div>
 
                             <h3 class="profile-username text-center">{{ $user->name }}</h3>
-                            <h3 class="profile-email text-center">{{ $user->email }}</h3>
                             <h5 class="text-muted text-center">
-                                <span
-                                    class="badge {{ $user->status == 1 ? 'badge-success' : 'badge-danger' }}"> {{ $user->status == 1 ? 'Active' : 'Inactive' }} </span>
+                                <span class="badge {{ $user->status == 1 ? 'badge-success' : 'badge-danger' }}">
+                                    {{ $user->status == 1 ? 'Active' : 'Inactive' }}
+                                </span>
                             </h5>
 
                         </div>
@@ -37,29 +32,62 @@
                     <div class="card">
 
                         <div class="card-body">
-                            <strong><i class="fas fa-user-hard-hat mr-1"></i> Designation</strong>
-                            @if(!empty($user->getRoleNames()))
-                                @foreach($user->getRoleNames() as $role)
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <strong>
+                                        <span class="material-icons">
+                                            perm_identity
+                                        </span>
+                                    </strong>
+                                    @if(!empty($user->getRoleNames()))
+                                        <ul>
+                                            @foreach($user->getRoleNames() as $role)
+                                                <li class="text-muted">
+                                                    {{ $role }}
+                                                </li>
+                                            @endforeach
+                                        </ul>
+                                    @endif
+                                </div>
+
+                                <div class="col-sm-4">
+                                    <strong>
+                                        <i class="material-icons">
+                                            email
+                                        </i>
+                                    </strong>
                                     <p class="text-muted">
-                                        {{ $role }}
+                                        {{ !empty($user->email_verified_at) ? $user->email.' (verified)' : $user->email.' (not-verified)' }}
                                     </p>
-                                @endforeach
-                            @endif
+                                </div>
+
+                                <div class="col-sm-4">
+                                    <span class="material-icons">
+                                        phone
+                                    </span>
+                                    <p class="text-muted">{{ $user->phone_number ? $user->phone_prefix.'-'.$user->phone_number : 'N/A'  }}</p>
+                                </div>
+                            </div>
                             <hr>
+                            <div class="row">
+                                <div class="col-sm-4">
+                                     <span class="material-icons">
+                                        home
+                                    </span>
+                                    <p class="text-muted">
+                                        {{ $user->address ? $user->address : 'N/A' }}
+                                    </p>
+                                </div>
 
-                            <strong><i class="fas fa-info mr-1"></i> About</strong>
-                            <p class="text-muted">
-                                {{ $user->about ? $user->about : 'N/A' }}
-                            </p>
-                            <hr>
-
-                            <strong><i class="fas fa-map-marker-alt mr-1"></i> Location</strong>
-                            <p class="text-muted">{{ $user->city ? $user->city.',' : 'N/A' }}</p>
-                            <hr>
-
-                            <strong><i class="fas fa-phone mr-1"></i> Phone</strong>
-                            <p class="text-muted">{{ $user->phone_number ? $user->phone_prefix.'-'.$user->phone_number : 'N/A'  }}</p>
-
+                                <div class="col-sm-4">
+                                     <span class="material-icons">
+                                        event
+                                    </span>
+                                    <p class="text-muted">
+                                        {{ $user->dob ? date('d M, Y', strtotime($user->dob)) : 'N/A'  }}
+                                    </p>
+                                </div>
+                            </div>
                         </div>
                         <!-- /.card-body -->
                     </div>

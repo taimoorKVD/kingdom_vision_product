@@ -101,16 +101,12 @@
                 <i class="fa fa-user fa-lg"></i>
             </a>
             <div class="dropdown-menu dropdown-menu-right">
-                <a href="{{ route('settings.general_settings') }}" class="dropdown-item">
-                    Settings
-                </a>
-                <div class="dropdown-divider"></div>
                 <a href="{{ route('profile.index') }}" class="dropdown-item">
-                    View Profile
+                    <span class="fa fa-user"> View Profile</span>
                 </a>
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                    Logout
+                    <span class="fa fa-sign-out"> Sign Out</span>
                 </a>
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                     @csrf
