@@ -9,12 +9,9 @@
     <!-- col-md-12 -->
     <div class="col-md-12">
 
-        @include('admin.partial.alert')
+        @include('admin.layouts.includes.page-content-header')
 
         <div class="card card-secondary card-outline">
-            <div class="card-header">
-                <h5>General Settings</h5>
-            </div>
             <form id="general_settings_form" enctype="multipart/form-data">
                 @csrf
                 <div class="card-body">

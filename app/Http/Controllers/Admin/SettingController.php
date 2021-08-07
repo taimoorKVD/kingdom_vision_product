@@ -26,7 +26,8 @@ class SettingController extends Controller
         }
         return view ('admin.settings.email.setup')
             ->withEmailKey($email_key)
-            ->withEmailValue($email_value);
+            ->withEmailValue($email_value)
+            ->withTitle('Settings > Email Configurations');
 
     }
 
@@ -54,7 +55,8 @@ class SettingController extends Controller
     {
         return view('admin.settings.general_settings')
             ->withTimezones($this->settingRepository->get_timezones())
-            ->withCurrentTimezone($this->settingRepository->get_current_timezone());
+            ->withCurrentTimezone($this->settingRepository->get_current_timezone())
+            ->withTitle('Settings > General Settings');;
     }
 
     public function update_general_settings()

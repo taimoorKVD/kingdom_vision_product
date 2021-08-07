@@ -9,6 +9,7 @@
                 </h1>
             </div>
             <!-- /.col -->
+            @if(request()->segment(2) !== "settings")
             <div class="col-sm-6">
                 <div class="d-flex justify-content-end">
                     <a href="{{ $backBtnRoute }}" class="btn btn-secondary btn-sm">
@@ -17,6 +18,7 @@
                     </a>
                 </div>
             </div>
+            @endif
             <!-- /.col -->
         </div>
         <!-- /.row -->
