@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Repositories\SettingRepository;
 use App\Models\Admin\Setting;
-use \Carbon\Carbon;
 
 class SettingController extends Controller
 {

@@ -2,7 +2,6 @@
 
 namespace App\Repositories;
 
-use App\Models\Admin\Timezone;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
@@ -10,6 +9,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Mail\TestMail;
 
 use App\Models\Admin\Setting;
+use App\Models\Admin\Timezone;
 
 class SettingRepository
 {

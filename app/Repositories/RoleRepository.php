@@ -11,7 +11,7 @@ use Spatie\Permission\Models\Role;
 class RoleRepository
 {
     public function role_listing() {
-        $per_page = ListingHelper::per_page();
+        $per_page = ListingHelper::paginate_per_page('role');
         $query = Role::select('*', DB::raw("(SELECT count(roles.id) FROM roles) AS total_roles"));
 
         /*

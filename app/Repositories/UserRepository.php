@@ -2,18 +2,16 @@
 
 namespace App\Repositories;
 
-use http\Env\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 use App\Http\Helper\Admin\ListingHelper;
 use App\User;
-use Spatie\Permission\Models\Role;
 
 class UserRepository
 {
     public function user_listing() {
-        $per_page = ListingHelper::per_page();
+        $per_page = ListingHelper::paginate_per_page('user');
         $query = User::select('*', DB::raw("(SELECT count(users.id) FROM users) AS total_users"));
 
         /*

@@ -58,5 +58,9 @@ Route::prefix('admin')->group(function () {
     Route::post('settings/update_general_settings', 'Admin\SettingController@update_general_settings')
         ->name('settings.update_general_settings');
     /* END SETTINGS ROUTES - GENERAL SETTINGS ROUTES */
+
+    /* PAGINATION ROUTE - FOR ALL MODULES */
+    Route::post('/set_pagination', 'Admin\PaginateController@set_pagination')->name('pagination.set_pagination');
+    /* END SETTINGS ROUTES - GENERAL SETTINGS ROUTES */
 });
 

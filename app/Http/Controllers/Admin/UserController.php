@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Helper\Admin\ListingHelper;
 use App\Http\Requests\CheckUserRequest;
 use App\Repositories\UserRepository;
 use App\User;
@@ -16,13 +17,14 @@ class UserController extends Controller
     {
         $this->middleware('auth');
         $this->userRepository = $userRepository;
-
     }
 
     public function index()
     {
         return view('admin.user.index')
             ->withTitle('Users')
+            ->withSingularTitle('user')
+            ->withCurrPaginate(ListingHelper::paginate_per_page('user'))
             ->withAddBtnRoute(route('users.create'));
     }
 

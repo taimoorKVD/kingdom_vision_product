@@ -33,9 +33,9 @@ class ListingHelper
         return false;
     }
 
-    public static function per_page(){
-        $settings = Setting::where('name','per_page')->limit(1)->first();
-        return self::is_val($settings, 'value',config('constants.per_page'));
+    public static function paginate_per_page($table_name = null) {
+        $user_paginate_val = Setting::where('name', $table_name.'_paginate_per_page')->get()->first();
+        return isset($user_paginate_val->value) && !empty($user_paginate_val->value) ? $user_paginate_val->value : '10';
     }
 
     public static function filter($table,$params,$query = null,$unset_keys = null){

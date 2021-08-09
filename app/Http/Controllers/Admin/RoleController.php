@@ -3,16 +3,18 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Helper\Admin\ListingHelper;
 use App\Http\Requests\CheckRoleRequest;
+use App\Repositories\PaginationRepository;
 use App\Repositories\RoleRepository;
 
 use Spatie\Permission\Models\Role;
 
 class RoleController extends Controller
 {
-    private $roleRepository;
+    private $roleRepository, $paginationRepository;
 
-    function __construct(RoleRepository $roleRepository)
+    function __construct(RoleRepository $roleRepository, PaginationRepository $paginationRepository)
     {
         $this->middleware('auth');
         $this->middleware('permission:roles.list|roles.create|roles.edit|roles.delete', ['only' => ['index','store']]);
@@ -20,12 +22,15 @@ class RoleController extends Controller
         $this->middleware('permission:roles.edit', ['only' => ['edit','update']]);
         $this->middleware('permission:roles.delete', ['only' => ['destroy']]);
         $this->roleRepository = $roleRepository;
+        $this->paginationRepository = $paginationRepository;
     }
 
     public function index()
     {
         return view('admin.role.index')
             ->withTitle('Roles')
+            ->withSingularTitle('role')
+            ->withCurrPaginate(ListingHelper::paginate_per_page('role'))
             ->withAddBtnRoute(route('roles.create'));
     }
 

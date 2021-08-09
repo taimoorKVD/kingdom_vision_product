@@ -38,6 +38,9 @@
                     </form>
                 </div>
             </div>
+
+            @include('admin.partial.set-pagination-value')
+
             <div class="card card-secondary card-outline">
                 <div class="card-body">
                     <div id="table-content">
@@ -96,4 +99,5 @@
             load_records(page,url);
         }
     </script>
+    @yield('pagination-scripts')
 @endsection
