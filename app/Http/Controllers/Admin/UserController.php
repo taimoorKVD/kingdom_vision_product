@@ -24,6 +24,7 @@ class UserController extends Controller
         return view('admin.user.index')
             ->withTitle('Users')
             ->withSingularTitle('user')
+            ->withBulkDeleteRoute('user.bulk_delete')
             ->withCurrPaginate(ListingHelper::paginate_per_page('user'))
             ->withAddBtnRoute(route('users.create'));
     }
@@ -95,5 +96,9 @@ class UserController extends Controller
         return redirect()
             ->route('users.index')
             ->with('success-message','User deleted successfully');
+    }
+
+    public function bulk_delete() {
+        return $this->userRepository->bulk_deletion(request()->all());
     }
 }

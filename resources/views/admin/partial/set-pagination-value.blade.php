@@ -3,9 +3,9 @@
         <label for="{{ $singularTitle }}_paginate"></label>
         <div class="input-group">
             <div class="input-group-prepend">
-                            <span class="input-group-text">
-                                <b>Show</b>
-                            </span>
+                <span class="input-group-text">
+                    <b>Show</b>
+                </span>
             </div>
             <select class="form-control" id="{{ $singularTitle }}_paginate" name="{{ $singularTitle }}_paginate">
                 <option
@@ -26,6 +26,32 @@
                 </option>
             </select>
         </div>
+    </div>
+
+    <div class="col-sm-3">
+        <label for="{{ $singularTitle }}_delete"></label>
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text">
+                    <b>Bulk Actions</b>
+                </span>
+            </div>
+            <select class="form-control" id="{{ $singularTitle }}_delete">
+                <option value="0">Choose</option>
+                <option value="delete">Delete</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="col-sm-3 d-none delete_btn">
+        <a href="javascript:void(0)" class="btn btn-danger mt-4" id="delete_checked_val">
+            <span class="material-icons">delete</span>
+            Delete
+        </a>
+        <a href="javascript:void(0)" class="btn mt-4" id="delete_reset">
+            <span class="material-icons">refresh</span>
+            Reset
+        </a>
     </div>
 </div>
 
@@ -60,6 +86,64 @@
                 });
             });
 
+            $('#{{$singularTitle}}_delete').change(function () {
+                if($(this).val() === "delete") {
+                    $('.user-checkbox').prop('checked', true);
+                    $('.delete_btn').removeClass('d-none');
+                    return false;
+                }
+                $('.user-checkbox').prop('checked', false);
+                $('.delete_btn').addClass('d-none');
+            });
+
+            $('#delete_checked_val').click(function () {
+                Swal.fire({
+                    title: 'Are you sure you want to delete?',
+                    showCancelButton: true,
+                    confirmButtonText: `Confirm`,
+                }).then((result) => {
+                    if(result.value) {
+                        var deleteIds = [];
+                        $("#listing_table input:checkbox:checked").map(function(){
+                            deleteIds.push($(this).val());
+                        });
+                        $.ajax({
+                            url: "{{ route($bulkDeleteRoute) }}",
+                            type:"POST",
+                            data:{
+                                "_token": "{{ csrf_token() }}",
+                                "deleteIds": deleteIds,
+                            },
+                            success:function(resp){
+                                if(resp.status) {
+                                    Toast.fire({
+                                        icon: 'success',
+                                        title: resp.msg
+                                    });
+                                } else {
+                                    Swal.fire({
+                                        icon: 'warning',
+                                        title: 'Error',
+                                        text: resp.msg,
+                                    });
+                                }
+                                reload_current_page();
+                                $('.user-checkbox').prop('checked', false);
+                                $('.delete_btn').addClass('d-none');
+                                $('#{{$singularTitle}}_delete').val('0');
+                            },
+                        });
+                    }
+                });
+            });
         });
+
+        document.getElementById('delete_reset').addEventListener('click',function(){
+            $('.user-checkbox').prop('checked', false);
+            $('.delete_btn').addClass('d-none');
+            $('#{{$singularTitle}}_delete').val('0');
+            load_records(1);
+        });
+
     </script>
     @endsection

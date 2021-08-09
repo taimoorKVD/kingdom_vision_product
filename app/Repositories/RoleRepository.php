@@ -92,4 +92,18 @@ class RoleRepository
         }
         return true;
     }
+
+    public function bulk_deletion() {
+        try {
+            if(isset(request()->deleteIds) && !empty(request()->deleteIds)) {
+                foreach (request()->deleteIds as $id) {
+                    $role = Role::find($id);
+                    $role->delete();
+                }
+            }
+            return response()->json([ 'status' => true, 'msg' => 'Bulk delete completed successfully' ]);
+        } catch (\Exception $e) {
+            return response()->json([ 'status' => false, 'msg' => $e->getMessage() ]);
+        }
+    }
 }

@@ -31,7 +31,7 @@
                                 </div>
                             </div>
                             <div class="col-12 text-right">
-                                <button type="submit" class="btn btn-info btn-wd"><span class="material-icons">filter_alt</span> Filter</button>
+                                <button type="submit" class="btn btn-secondary btn-wd"><span class="material-icons">filter_alt</span> Filter</button>
                                 <button id="clear" type="reset" class="btn btn-wd"><span class="material-icons">refresh</span> Reset</button>
                             </div>
                         </div>

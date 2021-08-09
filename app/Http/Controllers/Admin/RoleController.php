@@ -30,6 +30,7 @@ class RoleController extends Controller
         return view('admin.role.index')
             ->withTitle('Roles')
             ->withSingularTitle('role')
+            ->withBulkDeleteRoute('role.bulk_delete')
             ->withCurrPaginate(ListingHelper::paginate_per_page('role'))
             ->withAddBtnRoute(route('roles.create'));
     }
@@ -101,5 +102,9 @@ class RoleController extends Controller
         return redirect()
             ->route('roles.index')
             ->with('success-message','Role deleted successfully');
+    }
+
+    public function bulk_delete() {
+        return $this->roleRepository->bulk_deletion(request()->all());
     }
 }

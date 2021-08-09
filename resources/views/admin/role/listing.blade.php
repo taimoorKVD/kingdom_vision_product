@@ -1,6 +1,12 @@
-<table class="table table-sm table-bordered table-striped table-hover">
+<table class="table table-sm table-bordered table-striped table-hover" id="listing_table">
     <thead>
     <tr>
+        <th width="80px" class="text-center">
+            <div class="form-check">
+                <input class="form-check-input user-checkbox-all" type="checkbox" id="check_all">
+                <label class="form-check-label" for="check_all"></label>
+            </div>
+        </th>
         <th width="80px">No#</th>
         <th>Name</th>
         <th width="280px">Action</th>
@@ -10,6 +16,12 @@
     @if($roles->count() > 0)
         @foreach ($roles as $role)
             <tr>
+                <td class="text-center">
+                    <div class="form-check">
+                        <input class="form-check-input user-checkbox" name="role_ids[]" type="checkbox" value="{{ $role->id }}" id="role-{{ $role->id }}">
+                        <label class="form-check-label" for="role-{{ $role->id }}"></label>
+                    </div>
+                </td>
                 <td>{{ ++$i }}</td>
                 <td>{{ $role->name }}</td>
                 <td>
@@ -48,6 +60,7 @@
     </tbody>
     <tfoot>
     <tr>
+        <td></td>
         <td><b>No#</b></td>
         <td><b>Name</b></td>
         <td><b>Action</b></td>
