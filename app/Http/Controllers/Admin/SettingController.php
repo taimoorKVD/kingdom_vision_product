@@ -23,7 +23,7 @@ class SettingController extends Controller
             $email_key = $email['type'];
             $email_value = $email;
         }
-        return view ('admin.settings.email.setup')
+        return view ('admin.settings.email-configuration')
             ->withEmailKey($email_key)
             ->withEmailValue($email_value)
             ->withTitle('Settings > Email Configurations');

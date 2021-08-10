@@ -1,6 +1,11 @@
 @extends('admin.layouts.includes.dashboard')
 
 @section('content')
+    <style>
+        .select2-container {
+            width: 88% !important;
+        }
+    </style>
     @php
         $logo_url = url('storage/app/'.config('app.logo'));
         $favicon_url = url('storage/app/'.config('app.favicon'));
@@ -21,19 +26,28 @@
                             <table class="table table-borderless w-100">
                                 <tr>
                                     <th>
-                                        <label>Name:</label>
+                                        <label for="app_name">Name:</label>
                                     </th>
                                     <td>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text fa fa-id-badge"></span>
+                                            </div>
                                         <input type="text" id="app_name" class="form-control" name="app_name"
                                                value="{{ !empty(config('app.name')) ? config('app.name') : '' }}">
+                                        </div>
                                     </td>
                                 </tr>
 
                                 <tr>
                                     <th>
-                                        <label>Timezone:</label>
+                                        <label for="timezone">Timezone:</label>
                                     </th>
                                     <td>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text fa fa-clock"></span>
+                                            </div>
                                         <select id="timezone" name="timezone" class="form-control timezone_dropdown">
                                             @if($timezones->count() > 0)
                                                 @foreach($timezones as $timezone)
@@ -45,6 +59,7 @@
                                                 @endforeach
                                             @endif
                                         </select>
+                                        </div>
                                     </td>
                                 </tr>
                                 <tr>
@@ -95,10 +110,15 @@
 
                 </div>
                 <div class="card-footer d-flex justify-content-end">
-                    <button type="submit" class="btn btn-success btn-sm"
+                    <button type="submit" class="btn btn-secondary btn-wd"
                             id="submit_gen_set_form">
                         <span class="fas fa-circle-notch fa-spin d-none" id="save-spinner"></span>
-                        <span id="save-text">Update</span>
+                        <span id="save-text">
+                            <span class="material-icons">
+                                update
+                            </span>
+                            Update
+                        </span>
                     </button>
                 </div>
             </form>

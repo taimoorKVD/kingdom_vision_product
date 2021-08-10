@@ -40,10 +40,8 @@
                                     <div class="form-group">
                                         <label for="email_type">Choose email type</label>
                                         <select id="email_type" class="form-control" name="email_type">
-                                            <option {{ $emailKey == "default" ? 'selected' : '' }} value="default">
-                                                Default {{ $emailKey == "default" ? '(activated)' : '' }}</option>
-                                            <option {{ $emailKey == "Gmail" ? 'selected' : '' }} value="Gmail">
-                                                Gmail {{ $emailKey == "Gmail" ? '(activated)' : '' }}</option>
+                                            <option {{ $emailKey == "Smtp" ? 'selected' : '' }} value="Smtp">
+                                                Smtp {{ $emailKey == "Smtp" ? '(activated)' : '' }}</option>
                                             <option {{ $emailKey == "Mailtrap" ? 'selected' : '' }} value="Mailtrap">
                                                 Mailtrap {{ $emailKey == "Mailtrap" ? '(activated)' : '' }}</option>
                                             <option {{ $emailKey == "Sendgrid" ? 'selected' : '' }} value="Sendgrid">
@@ -52,7 +50,7 @@
                                     </div>
 
                                     {{-- Gmail & Mailtrap --}}
-                                    <div class="row {{ $emailKey !== "default" && $emailKey !== "empty" ? '' : 'd-none' }}"
+                                    <div class="row"
                                          id="email_config_form">
 
                                         <div class="col-md-4">
@@ -154,10 +152,15 @@
                                         <div class="col-md-12">
                                             <hr>
                                             <div class="form-group d-flex justify-content-end">
-                                                <button type="submit" class="btn btn-success btn-sm"
+                                                <button type="submit" class="btn btn-secondary btn-wd"
                                                         id="submit-email-config-form">
                                                     <span class="fas fa-circle-notch fa-spin d-none" id="spinner"></span>
-                                                    <span id="save-text">Save</span>
+                                                    <span id="save-text">
+                                                        <span class="material-icons">
+                                                            save_alt
+                                                        </span>
+                                                        Save
+                                                    </span>
                                                 </button>
                                             </div>
                                         </div>
@@ -179,7 +182,7 @@
                                             <div class="form-group">
                                                 <label for="to">To</label>
                                                 <input type="text" name="to" class="form-control" id="to">
-                                                <div class="invalid-feedback">
+                                                <div class="invalid-feedback d-none">
                                                     The to field is empty.
                                                 </div>
                                             </div>
@@ -202,10 +205,15 @@
                                         <div class="col-md-12">
                                             <hr>
                                             <div class="form-group d-flex justify-content-end">
-                                                <button type="submit" class="btn btn-success btn-sm"
+                                                <button type="submit" class="btn btn-secondary btn-wd"
                                                         id="submit_email_connect">
                                                     <span class="fas fa-circle-notch fa-spin d-none" id="send-spinner"></span>
-                                                    <span id="send-text">Send</span>
+                                                    <span id="send-text">
+                                                        <span class="material-icons">
+                                                            send
+                                                        </span>
+                                                        Send
+                                                    </span>
                                                 </button>
                                             </div>
                                         </div>
@@ -222,7 +230,10 @@
                                     <center>
                                         <h5 class="finish-setup-title"></h5>
                                         <p class="finish-setup-msg"></p>
-                                        <a href="{{ route('settings.index') }}" class="btn btn-success btn-sm">
+                                        <a href="{{ route('settings.index') }}" class="btn btn-secondary btn-wd">
+                                            <span class="material-icons">
+                                                check_circle_outline
+                                            </span>
                                             Finish
                                         </a>
                                     </center>
@@ -258,11 +269,6 @@
             Email type
             */
             $('#email_type').on('change', function () {
-                $('#email_config_form').removeClass('d-none');
-                if ($(this).val() === "default") {
-                    $('#email_config_form').addClass('d-none');
-                }
-
                 $('.clear').val('').removeClass('is-invalid');
                 $.ajax({
                     url: "{{ route('settings.get-email-config') }}",

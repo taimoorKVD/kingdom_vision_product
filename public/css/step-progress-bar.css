@@ -65,7 +65,7 @@
 }
 
 #progressbar .active {
-    color: #2F8D46
+    color: #6c757d;
 }
 
 #progressbar li {
@@ -118,7 +118,7 @@
 
 #progressbar li.active:before,
 #progressbar li.active:after {
-    background: #2F8D46
+    background: #6c757d
 }
 
 .progress {
@@ -126,7 +126,7 @@
 }
 
 .progress-bar {
-    background-color: #2F8D46
+    background-color: #6c757d;
 }
 
 .secret{

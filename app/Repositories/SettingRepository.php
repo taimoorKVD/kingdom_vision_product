@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
 
-use App\Mail\TestMail;
+use App\Mail\TestingMail;
 
 use App\Models\Admin\Setting;
 use App\Models\Admin\Timezone;
@@ -153,13 +153,13 @@ class SettingRepository
             return [ 'resp' => false, 'msg' => $validator->errors()->all(), 'config' => true ];
         }
         $details = [
-            'title' => 'Email from '.config('app.name'),
+            'title' => 'Testing Email from '.config('app.name'),
             'subject' => request()->subject,
             'body' => request()->body,
         ];
 
         try {
-            Mail::to(request()->to)->send(new TestMail($details));
+            Mail::to(request()->to)->send(new TestingMail($details));
             return [ 'resp' => true, 'msg' => response('okay', 200) ];
         } catch (\Exception $e) {
             return ['resp' => false, 'msg' => $e->getMessage(), 'config' => false ];

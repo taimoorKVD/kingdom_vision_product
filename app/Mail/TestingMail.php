@@ -7,17 +7,16 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class TestMail extends Mailable
+class TestingMail extends Mailable
 {
     use Queueable, SerializesModels;
-
-    public $details;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
+    public $details;
     public function __construct($details)
     {
         $this->details = $details;
@@ -30,7 +29,6 @@ class TestMail extends Mailable
      */
     public function build()
     {
-        return $this->subject('Mail from '.config('app.name'))
-            ->view('admin.settings.email.test_mail');
+        return $this->markdown('admin.emails.test.testing-mail');
     }
 }
