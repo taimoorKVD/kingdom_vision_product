@@ -15,11 +15,16 @@
                                 <tbody>
                                 <tr>
                                     <th width="150">
-                                        <label class="required">Role</label>
+                                        <label class="required" for="role">Role</label>
                                     </th>
                                     <td>
-                                        <input type="text" name="name" class="form-control alpha-only" value="{{ $role->name }}">
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text fa fa-user-secret"></span>
+                                            </div>
+                                        <input type="text" name="name" class="form-control alpha-only" value="{{ $role->name }}" id="role">
                                         <div id="name" class="invalid-feedback"></div>
+                                        </div>
                                     </td>
                                 </tr>
                                 </tbody>
@@ -32,8 +37,18 @@
                 </div>
                 <div class="card-footer">
                     <div class="col-xs-12 col-sm-12 col-md-12 text-center">
-                        <a href="" class="btn btn-secondary btn-sm">Reload</a>
-                        <button type="submit" class="btn btn-success btn-sm">Update</button>
+                        <a href="" class="btn btn-wd">
+                            <span class="material-icons">
+                                restart_alt
+                            </span>
+                            Reload
+                        </a>
+                        <button type="submit" class="btn btn-secondary btn-wd">
+                            <span class="material-icons">
+                                update
+                            </span>
+                            Update
+                        </button>
                     </div>
                 </div>
                 {!! Form::close() !!}

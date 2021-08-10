@@ -1,6 +1,11 @@
 @extends('admin.layouts.includes.dashboard')
 
 @section('content')
+    <style>
+        .select2-container {
+            width: 85% !important;
+        }
+    </style>
 
     @include('admin.layouts.includes.page-content-header')
 
@@ -13,34 +18,51 @@
 
                         <div class="row">
                             <div class="col-xs-6 col-sm-6 col-md-6">
-                                <div class="form-group">
-                                    <label for="name">Name</label>
-                                    <input type="text" class="form-control" name="name">
+                                <label for="name">Name</label>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text fa fa-user"></span>
+                                    </div>
+                                    <input type="text" class="form-control" name="name" id="name">
                                 </div>
                             </div>
 
                             <div class="col-xs-6 col-sm-6 col-md-6">
-                                <div class="form-group">
-                                    <label for="email">Email</label>
-                                    <input type="email" class="form-control" name="email">
+                                <label for="email">Email</label>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text fa fa-envelope"></span>
+                                    </div>
+                                    <input type="email" class="form-control" name="email" id="email" autocomplete="username">
                                 </div>
                             </div>
 
                             <div class="col-xs-6 col-sm-6 col-md-6">
-                                <div class="form-group">
-                                    <label for="password">Password</label>
-                                    {!! Form::password('password', array('class' => 'form-control')) !!}
+                                <label for="password">Password</label>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text fa fa-key"></span>
+                                    </div>
+                                    <input type="password" class="form-control" name="password" id="password" autocomplete="new-password"
+                                           onblur="this.setAttribute('readonly', 'readonly');"
+                                           onfocus="this.removeAttribute('readonly');" readonly>
                                 </div>
                             </div>
                             <div class="col-xs-6 col-sm-6 col-md-6">
-                                <div class="form-group">
-                                    <label for="confirm-password">Confirm Password</label>
+                                <label for="confirm-password">Confirm Password</label>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text fa fa-key"></span>
+                                    </div>
                                     {!! Form::password('confirm-password', array('class' => 'form-control')) !!}
                                 </div>
                             </div>
                             <div class="col-xs-6 col-sm-6 col-md-6">
-                                <div class="form-group">
-                                    <label for="role">Role</label>
+                                <label for="role">Role</label>
+                                <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text fa fa-user-secret"></span>
+                                </div>
                                     {!! Form::select('roles[]', $roles,[], array('class' => 'form-control select-multiple-role', 'multiple')) !!}
                                 </div>
                             </div>
@@ -48,7 +70,12 @@
                     </div>
                     <div class="card-footer">
                         <div class="col-xs-12 col-sm-12 col-md-12 text-center">
-                            <button type="submit" class="btn btn-success btn-sm">Submit</button>
+                            <button type="submit" class="btn btn-secondary btn-wd">
+                                <span class="material-icons">
+                                    save_alt
+                                </span>
+                                Save
+                            </button>
                         </div>
                     </div>
                 </form>
@@ -56,11 +83,8 @@
         </div>
     </div>
 @endsection
-@section('css')
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-@endsection
+
 @section('scripts')
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>
         $(document).ready(function() {
             $('.select-multiple-role').select2();
