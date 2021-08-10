@@ -24,12 +24,16 @@ Route::prefix('admin')->group(function () {
     Route::resource('users', 'Admin\UserController');
     Route::get('/user/listing', 'Admin\UserController@listing')->name('user.listing');
     Route::post('/user/bulk_delete', 'Admin\UserController@bulk_delete')->name('user.bulk_delete');
+    Route::post('/user/export_pdf', 'Admin\UserController@export_pdf')->name('user.export_pdf');
+    Route::post('/user/export_excel', 'Admin\UserController@export_excel')->name('user.export_excel');
     /* END USER MANAGEMENT ROUTES */
 
     /* ROLE MANAGEMENT ROUTES */
     Route::resource('roles', 'Admin\RoleController');
     Route::get('/role/listing', 'Admin\RoleController@listing')->name('role.listing');
     Route::post('/role/bulk_delete', 'Admin\RoleController@bulk_delete')->name('role.bulk_delete');
+    Route::post('/role/export_pdf', 'Admin\RoleController@export_pdf')->name('role.export_pdf');
+    Route::post('/role/export_excel', 'Admin\RoleController@export_excel')->name('role.export_excel');
     /* END ROLE MANAGEMENT ROUTES */
 
     /* ADMIN PROFILE ROUTES */

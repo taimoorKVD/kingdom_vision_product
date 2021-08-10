@@ -22,7 +22,7 @@
                 <div class="card-body">
 
                     <div class="row">
-                        <div class="form-group col-md-6">
+                        <div class="col-md-6">
                             <table class="table table-borderless w-100">
                                 <tr>
                                     <th>
@@ -101,6 +101,32 @@
                                                 <input id="favicon_image" class="userfile d-none" type="file" name="app_favicon" onchange="readURL(this,'#favicon-container');">
                                             </div>
                                             <div class="text-danger upload_msg"></div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="col-sm-4 border-left">
+                            <table class="table table-borderless w-100">
+                                <tr>
+                                    <th width="20px">
+                                        <label for="excel">Excel:</label>
+                                    </th>
+                                    <td>
+                                        <div class="custom-control custom-switch">
+                                            <input type="checkbox" class="custom-control-input" id="excel" name="excel" value="1" {{ isset($settings['excel']) && !empty($settings['excel']) && $settings['excel'] == "yes" ? 'checked' : '' }}>
+                                            <label class="custom-control-label" for="excel"></label>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th width="20px">
+                                        <label for="pdf">Pdf:</label>
+                                    </th>
+                                    <td>
+                                        <div class="custom-control custom-switch">
+                                            <input type="checkbox" class="custom-control-input" id="pdf" name="pdf" value="1" {{ isset($settings['pdf']) && !empty($settings['pdf']) && $settings['pdf'] == "yes" ? 'checked' : '' }}>
+                                            <label class="custom-control-label" for="pdf"></label>
                                         </div>
                                     </td>
                                 </tr>

@@ -1,11 +1,3 @@
-<style>
-    .custom-control-input:checked ~ .custom-control-label::before {
-        border-color: lightgray;
-        background-color: gray;
-    }
-
-</style>
-
 @if($permissions->count())
     <div class="row">
         @foreach($permissions as $key=>$permission)

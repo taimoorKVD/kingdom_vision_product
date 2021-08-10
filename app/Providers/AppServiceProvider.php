@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Models\Admin\Setting;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\View;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -65,5 +66,15 @@ class AppServiceProvider extends ServiceProvider
             config(['app.logo' => $settings['app_logo']]);
             config(['app.favicon' => $settings['app_favicon']]);
         }
+
+        /*
+         * Check & Pass all the settings data to views
+         * */
+        $general_settings = Setting::where('name', 'general_settings')->get()->first();
+        if ($general_settings) {
+            $settings = json_decode($general_settings->value, true);
+                View::share('settings', $settings);
+            }
+
     }
 }

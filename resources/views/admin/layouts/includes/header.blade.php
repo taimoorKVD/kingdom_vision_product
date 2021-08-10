@@ -20,5 +20,14 @@
     {{-- APP CSS  --}}
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 
+    {{-- CUSTOM CSS --}}
+    <style>
+        .custom-control-input:checked ~ .custom-control-label::before {
+            border-color: lightgray;
+            background-color: gray;
+        }
+
+    </style>
+
     @yield('css')
 </head>

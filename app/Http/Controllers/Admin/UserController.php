@@ -9,6 +9,7 @@ use App\Repositories\UserRepository;
 use App\User;
 
 use Spatie\Permission\Models\Role;
+use PDF;
 
 class UserController extends Controller
 {
@@ -25,6 +26,8 @@ class UserController extends Controller
             ->withTitle('Users')
             ->withSingularTitle('user')
             ->withBulkDeleteRoute('user.bulk_delete')
+            ->withPdfExportRoute('user.export_pdf')
+            ->withExcelExportRoute('user.export_excel')
             ->withCurrPaginate(ListingHelper::paginate_per_page('user'))
             ->withAddBtnRoute(route('users.create'));
     }
@@ -100,5 +103,31 @@ class UserController extends Controller
 
     public function bulk_delete() {
         return $this->userRepository->bulk_deletion(request()->all());
+    }
+
+    public function export_pdf() {
+        try {
+            $data = User::select('id','name','email','created_at')->get();
+            set_time_limit(300);
+            $pdf = PDF::loadView('admin.user.pdf.listing', ['data' => $data]);
+            $path = public_path('pdf/');
+            $fileName = time() . '.' . 'pdf';
+
+            /* STORE PDF IN ROOT PUBLIC FOLDER */
+            $pdf->save($path . '/' . $fileName);
+
+            $pdf = public_path('pdf/' . $fileName);
+            return response()->download($pdf)->deleteFileAfterSend(true);
+        } catch (\Exception $e) {
+            return ['status' => false, 'data' => $e->getMessage()];
+        }
+    }
+
+    public function export_excel() {
+        try {
+            return ['resp' => true, 'excel' => 'success'];
+        } catch (\Exception $e) {
+            return ['resp' => false, 'msg' => $e->getMessage()];
+        }
     }
 }

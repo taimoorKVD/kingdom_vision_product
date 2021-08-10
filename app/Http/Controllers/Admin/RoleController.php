@@ -8,6 +8,7 @@ use App\Http\Requests\CheckRoleRequest;
 use App\Repositories\PaginationRepository;
 use App\Repositories\RoleRepository;
 
+use PDF;
 use Spatie\Permission\Models\Role;
 
 class RoleController extends Controller
@@ -31,6 +32,8 @@ class RoleController extends Controller
             ->withTitle('Roles')
             ->withSingularTitle('role')
             ->withBulkDeleteRoute('role.bulk_delete')
+            ->withPdfExportRoute('role.export_pdf')
+            ->withExcelExportRoute('role.export_excel')
             ->withCurrPaginate(ListingHelper::paginate_per_page('role'))
             ->withAddBtnRoute(route('roles.create'));
     }
@@ -106,5 +109,31 @@ class RoleController extends Controller
 
     public function bulk_delete() {
         return $this->roleRepository->bulk_deletion(request()->all());
+    }
+
+    public function export_pdf() {
+        try {
+            $data = Role::select('id','name','created_at')->get();
+            set_time_limit(300);
+            $pdf = PDF::loadView('admin.role.pdf.listing', ['data' => $data]);
+            $path = public_path('pdf/');
+            $fileName = time() . '.' . 'pdf';
+
+            /* STORE PDF IN ROOT PUBLIC FOLDER */
+            $pdf->save($path . '/' . $fileName);
+
+            $pdf = public_path('pdf/' . $fileName);
+            return response()->download($pdf)->deleteFileAfterSend(true);
+        } catch (\Exception $e) {
+            return ['status' => false, 'data' => $e->getMessage()];
+        }
+    }
+
+    public function export_excel() {
+        try {
+            return ['resp' => true, 'excel' => 'success'];
+        } catch (\Exception $e) {
+            return ['resp' => false, 'msg' => $e->getMessage()];
+        }
     }
 }
