@@ -67,4 +67,9 @@ class SettingController extends Controller
         \Artisan::call('cache:clear');
         return ['resp' => true, 'msg' => 'Successfully Updated'];
     }
+
+    public function fetch_email_config() {
+        return view('admin.settings.load-email-form')
+            ->withEmailValue($this->settingRepository->fetch_email_configurations(request()->all()));
+    }
 }

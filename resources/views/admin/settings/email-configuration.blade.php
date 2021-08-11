@@ -37,8 +37,11 @@
                                 @csrf
                                 <div class="card card-body">
 
-                                    <div class="form-group">
-                                        <label for="email_type">Choose email type</label>
+                                    <label for="email_type">Choose email type</label>
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text fa fa-envelope"></span>
+                                        </div>
                                         <select id="email_type" class="form-control" name="email_type">
                                             <option {{ $emailKey == "Smtp" ? 'selected' : '' }} value="Smtp">
                                                 Smtp {{ $emailKey == "Smtp" ? '(activated)' : '' }}</option>
@@ -50,101 +53,8 @@
                                     </div>
 
                                     {{-- Gmail & Mailtrap --}}
-                                    <div class="row"
-                                         id="email_config_form">
-
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label for="driver">Driver</label>
-                                                <input type="text" class="form-control clear driver" id="driver" name="driver"
-                                                       value="{{ isset($emailValue) && !empty($emailValue) ? $emailValue['driver'] : '' }}">
-                                                <div class="invalid-feedback d-none">
-                                                    The driver field is empty.
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label for="host">Host</label>
-                                                <input type="text" class="form-control clear host" id="host" name="host"
-                                                       value="{{ isset($emailValue) && !empty($emailValue) ? $emailValue['host'] : '' }}">
-                                                <div class="invalid-feedback d-none">
-                                                    The host field is empty.
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label for="port">Port</label>
-                                                <input type="text" class="form-control clear port" id="port" name="port"
-                                                       value="{{ isset($emailValue) && !empty($emailValue) ? $emailValue['port'] : '' }}">
-                                                <div class="invalid-feedback d-none">
-                                                    The port field is empty.
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label for="username">Username</label>
-                                                <input type="text" class="form-control clear username" id="username"
-                                                       name="username"
-                                                       value="{{ isset($emailValue) && !empty($emailValue) ? $emailValue['username'] : '' }}">
-                                                <div class="invalid-feedback d-none user-error-msg">
-                                                    The username field is empty.
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label for="password">Password</label>
-                                                <input type="password" class="form-control clear secret" id="password"
-                                                       name="password"
-                                                       value="{{ isset($emailValue) && !empty($emailValue) ? $emailValue['password'] : '' }}">
-                                                <div class="invalid-feedback d-none pass-error-msg">
-                                                    The password field is empty.
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label for="encryption">Encryption</label>
-                                                <input type="text" class="form-control clear encryption" id="encryption"
-                                                       name="encryption"
-                                                       value="{{ isset($emailValue) && !empty($emailValue) ? $emailValue['encryption'] : '' }}">
-                                                <div class="invalid-feedback d-none">
-                                                    The encryption field is empty.
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label for="address">From Address</label>
-                                                <input type="text" class="form-control clear address" id="address"
-                                                       name="address"
-                                                       value="{{ isset($emailValue) && !empty($emailValue) ? $emailValue['from']['address'] : '' }}">
-                                                <div class="invalid-feedback d-none">
-                                                    The driver field is empty.
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label for="name">App Name</label>
-                                                <input type="text" class="form-control clear name" id="name" name="name"
-                                                       value="{{ isset($emailValue) && !empty($emailValue) ? $emailValue['from']['name'] : '' }}">
-                                                <div class="invalid-feedback d-none">
-                                                    The app name field is empty.
-                                                </div>
-
-                                            </div>
-                                        </div>
+                                    <div id="form-content">
+                                        @include('admin.partial.loading-table')
                                     </div>
                                     {{-- End Gmail & Mailtrap --}}
 
@@ -179,18 +89,21 @@
                                 <div class="card card-body">
                                     <div class="row">
                                         <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label for="to">To</label>
-                                                <input type="text" name="to" class="form-control" id="to">
-                                                <div class="invalid-feedback d-none">
-                                                    The to field is empty.
+                                            <label for="to">To</label>
+                                            <div class="input-group mb-3">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text fa fa-user"></span>
                                                 </div>
+                                                <input type="text" name="to" class="form-control" id="to">
                                             </div>
                                         </div>
 
                                         <div class="col-md-8">
-                                            <div class="form-group">
-                                                <label for="subject">Subject</label>
+                                            <label for="subject">Subject</label>
+                                            <div class="input-group mb-3">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text fa fa-sticky-note"></span>
+                                                </div>
                                                 <input type="text" name="subject" class="form-control" id="subject">
                                             </div>
                                         </div>
@@ -265,37 +178,6 @@
     <script src="{{ asset('js/step-progress-bar.js') }}"></script>
     <script>
         $(document).ready(function () {
-            /*
-            Email type
-            */
-            $('#email_type').on('change', function () {
-                $('.clear').val('').removeClass('is-invalid');
-                $.ajax({
-                    url: "{{ route('settings.get-email-config') }}",
-                    type:"GET",
-                    data:{
-                        "email_type": $(this).val()
-                    },
-                    success:function(resp){
-                        if(resp)
-                        {
-                            let frmSmtp = $('#email-config-form');
-                            frmSmtp.find('input[name=driver]').val(resp.driver);
-                            frmSmtp.find('input[name=host]').val(resp.host);
-                            frmSmtp.find('input[name=port]').val(resp.port);
-                            frmSmtp.find('input[name=username]').val(resp.username);
-                            frmSmtp.find('input[name=password]').val(resp.password);
-                            frmSmtp.find('input[name=encryption]').val(resp.encryption);
-                            frmSmtp.find('input[name=address]').val(resp.from.address);
-                            frmSmtp.find('input[name=name]').val(resp.from.name);
-                        }
-                    },
-                });
-            });
-            /*
-             End Email type
-             */
-
             /*
              Email Configuration From
              */
@@ -438,7 +320,6 @@
                             if($('#to').val() === '')
                             {
                                     $('#to').addClass('is-invalid');
-                                    $('#to').removeClass('d-none');
                                     $('#submit_email_connect').attr('disabled', false);
                                     $('#send-spinner').addClass('d-none');
                                     $('#send-text').text('Send');
@@ -452,5 +333,45 @@
             End Connectivity form submit
             */
         });
+
+        /*
+            End Email FORM LOAD
+        */
+        let loading;
+        function load_records(page, url){
+            $('#form-content').html(loading);
+            url = url ? url : "{{ route('settings.fetch_email_config') }}?email_type="+document.getElementById("email_type").value;
+            axios.get(url).then((response)=>{
+                $('#form-content').html(response.data);
+            })
+        }
+
+        document.addEventListener("DOMContentLoaded", ()=>{
+            loading = $('#form-content').html();
+            load_records(1);
+        });
+
+        document.getElementById("email_type").addEventListener('change',(e)=>{
+            e.preventDefault();
+            load_records(1);
+        });
+
+        $(document).on('click','.page-item:not(.active) .page-link',function (e) {
+            e.preventDefault();
+            let href = $(this).prop('href');
+            load_records(null,href);
+        });
+
+        function reload_current_page(){
+            let url,page = 1;
+            if($(document).find('.page-item.active .page-link').length){
+                page = parseInt($(document).find('.page-item.active .page-link').text());
+            }
+            url = "{{ route('settings.fetch_email_config') }}?email_type="+document.getElementById("email_type").value;
+            load_records(page,url);
+        }
+        /*
+            End Email FORM LOAD
+        */
     </script>
 @endsection

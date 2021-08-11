@@ -27,6 +27,11 @@
             background-color: gray;
         }
 
+        .dashboard-active {
+            background-color:rgba(255,255,255,.9);
+            color: #343a40 !important;
+        }
+
     </style>
 
     @yield('css')

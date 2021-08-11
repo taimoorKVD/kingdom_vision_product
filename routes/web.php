@@ -44,7 +44,7 @@ Route::prefix('admin')->group(function () {
     /* END ADMIN PROFILE ROUTES */
 
     /* DASHBOARD ROUTES */
-    Route::get('dashboard', 'HomeController@index')
+    Route::get('dashboard', 'DashboardController@index')
         ->name('admin.dashboard');
     /* END DASHBOARD ROUTES */
 
@@ -63,6 +63,8 @@ Route::prefix('admin')->group(function () {
         ->name('settings.general_settings');
     Route::post('settings/update_general_settings', 'Admin\SettingController@update_general_settings')
         ->name('settings.update_general_settings');
+    Route::get('settings/fetch_email_config', 'Admin\SettingController@fetch_email_config')
+        ->name('settings.fetch_email_config');
     /* END SETTINGS ROUTES - GENERAL SETTINGS ROUTES */
 
     /* PAGINATION ROUTE - FOR ALL MODULES */

@@ -9,7 +9,7 @@
                 </h1>
             </div>
             <!-- /.col -->
-            @if(request()->segment(2) !== "settings")
+            @if(request()->segment(2) !== "settings" && request()->segment(2) !== "dashboard")
             <div class="col-sm-6">
                 <div class="d-flex justify-content-end">
                     <a href="{{ $backBtnRoute }}" class="btn btn-secondary btn-sm">

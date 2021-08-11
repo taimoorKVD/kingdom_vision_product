@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use Illuminate\Contracts\Support\Renderable;
-use Illuminate\Http\Request;
+use Spatie\Permission\Models\Role;
 
-class HomeController extends Controller
+class DashboardController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -24,6 +25,9 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('admin.layouts.includes.dashboard');
+        return view('admin.dashboard.index')
+            ->withTitle('Dashboard')
+            ->withTotalRoles(Role::count())
+            ->withTotalUsers(User::count());
     }
 }
