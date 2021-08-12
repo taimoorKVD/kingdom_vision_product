@@ -5,11 +5,12 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Helper\Admin\ListingHelper;
 use App\Http\Requests\CheckRoleRequest;
+
 use App\Repositories\PaginationRepository;
 use App\Repositories\RoleRepository;
 
-use PDF;
 use Spatie\Permission\Models\Role;
+
 
 class RoleController extends Controller
 {
@@ -112,28 +113,10 @@ class RoleController extends Controller
     }
 
     public function export_pdf() {
-        try {
-            $data = Role::select('id','name','created_at')->get();
-            set_time_limit(300);
-            $pdf = PDF::loadView('admin.role.pdf.listing', ['data' => $data]);
-            $path = public_path('pdf/');
-            $fileName = time() . '.' . 'pdf';
-
-            /* STORE PDF IN ROOT PUBLIC FOLDER */
-            $pdf->save($path . '/' . $fileName);
-
-            $pdf = public_path('pdf/' . $fileName);
-            return response()->download($pdf)->deleteFileAfterSend(true);
-        } catch (\Exception $e) {
-            return ['status' => false, 'data' => $e->getMessage()];
-        }
+        return response()->download($this->roleRepository->get_pdf())->deleteFileAfterSend(true);
     }
 
     public function export_excel() {
-        try {
-            return ['resp' => true, 'excel' => 'success'];
-        } catch (\Exception $e) {
-            return ['resp' => false, 'msg' => $e->getMessage()];
-        }
+        return $this->roleRepository->get_excel();
     }
 }

@@ -8,6 +8,11 @@ use Illuminate\Support\Facades\Hash;
 use App\Http\Helper\Admin\ListingHelper;
 use App\User;
 
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\Admin\UsersExport;
+
+use PDF;
+
 class UserRepository
 {
     public function user_listing() {
@@ -128,6 +133,31 @@ class UserRepository
             return response()->json([ 'status' => true, 'msg' => 'Bulk delete completed successfully' ]);
         } catch (\Exception $e) {
             return response()->json([ 'status' => false, 'msg' => $e->getMessage() ]);
+        }
+    }
+
+    public function get_pdf() {
+        try {
+            $data = User::select('id','name','email','created_at')->get();
+            set_time_limit(300);
+            $pdf = PDF::loadView('admin.user.pdf.listing', ['data' => $data]);
+            $path = public_path('pdf/');
+            $fileName = time() . '.' . 'pdf';
+
+            /* STORE PDF IN ROOT PUBLIC FOLDER */
+            $pdf->save($path . '/' . $fileName);
+
+            return public_path('pdf/' . $fileName);
+        } catch (\Exception $e) {
+            return ['status' => false, 'data' => $e->getMessage()];
+        }
+    }
+
+    public function get_excel() {
+        try {
+            return Excel::download(new UsersExport, 'users.xlsx');
+        } catch (\Exception $e) {
+            return ['resp' => false, 'msg' => $e->getMessage()];
         }
     }
 }

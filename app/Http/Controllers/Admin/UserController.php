@@ -10,6 +10,8 @@ use App\User;
 
 use Spatie\Permission\Models\Role;
 use PDF;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\Admin\UsersExport;
 
 class UserController extends Controller
 {
@@ -106,28 +108,10 @@ class UserController extends Controller
     }
 
     public function export_pdf() {
-        try {
-            $data = User::select('id','name','email','created_at')->get();
-            set_time_limit(300);
-            $pdf = PDF::loadView('admin.user.pdf.listing', ['data' => $data]);
-            $path = public_path('pdf/');
-            $fileName = time() . '.' . 'pdf';
-
-            /* STORE PDF IN ROOT PUBLIC FOLDER */
-            $pdf->save($path . '/' . $fileName);
-
-            $pdf = public_path('pdf/' . $fileName);
-            return response()->download($pdf)->deleteFileAfterSend(true);
-        } catch (\Exception $e) {
-            return ['status' => false, 'data' => $e->getMessage()];
-        }
+        return response()->download($this->userRepository->get_pdf())->deleteFileAfterSend(true);
     }
 
     public function export_excel() {
-        try {
-            return ['resp' => true, 'excel' => 'success'];
-        } catch (\Exception $e) {
-            return ['resp' => false, 'msg' => $e->getMessage()];
-        }
+        return $this->userRepository->get_excel();
     }
 }

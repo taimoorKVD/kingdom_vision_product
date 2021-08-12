@@ -1,23 +1,27 @@
-@extends('layouts.app')
+<!DOCTYPE html>
+<html>
+<head>
+    <script>
+        function countdowntimes() {
+            var livedt = new Date();
+                livedt.toLocaleString('en-PK', { timeZone: 'Asia/Karachi' });
+            var h = livedt.getHours();
+            var m = livedt.getMinutes();
+            var s = livedt.getSeconds();
+            m = latestTime(m);
+            s = latestTime(s);
+            document.getElementById('preview').innerHTML =
+                h + ":" + m + ":" + s;
+            var t = setTimeout(countdowntimes, 500);
+        }
+        function latestTime(i) {
+            if (i < 10) {i = "0" + i};  // include a zero in front of real clock numbers < 10
+            return i;
+        }
+    </script>
+</head>
+<body onload="countdowntimes()">
 
-@section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Dashboard') }}</div>
-
-                <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-
-                    {{ __('You are logged in!') }}
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-@endsection
+<div id="preview"></div>
+</body>
+</html>

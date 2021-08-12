@@ -3,7 +3,7 @@
 @section('content')
     <style>
         .select2-container {
-            width: 88% !important;
+            width: 87% !important;
         }
     </style>
     @php
@@ -26,7 +26,7 @@
                             <table class="table table-borderless w-100">
                                 <tr>
                                     <th>
-                                        <label for="app_name">Name:</label>
+                                        <label for="app_name">App Name:</label>
                                     </th>
                                     <td>
                                         <div class="input-group">

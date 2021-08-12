@@ -50,18 +50,16 @@
     <div class="col-sm-3 d-none delete_btn">
         <a href="javascript:void(0)" class="btn btn-danger mt-4" id="delete_checked_val">
             <span class="material-icons">delete</span>
-            Delete
         </a>
         <a href="javascript:void(0)" class="btn mt-4" id="delete_reset">
             <span class="material-icons">refresh</span>
-            Reset
         </a>
     </div>
     {{-- END BULK DELETION OPTION --}}
 
     {{-- EXPORT EXCEL & PDF OPTION --}}
     @if(isset($settings['excel']) && !empty($settings['excel']) && $settings['excel'] == "yes" || isset($settings['pdf']) && !empty($settings['pdf']) && $settings['pdf'] == "yes")
-    <div class="col-sm-3">
+    <div class="col-sm-3 export_btn_div" id="export_btn_div">
         <label for="{{ $singularTitle }}_export"></label>
         <div class="input-group">
             <div class="input-group-prepend">
@@ -93,7 +91,6 @@
             <span class="material-icons">
                 refresh
             </span>
-            Reset
         </a>
     </div>
     @endif
@@ -133,13 +130,17 @@
             });
 
             $('#{{$singularTitle}}_delete').change(function () {
+                $('.export_btn').addClass('d-none');
+                $('#{{$singularTitle}}_export').val('0');
                 if($(this).val() === "delete") {
+                    $('.export_btn_div').css('margin-left','-15%');
                     $('.user-checkbox').prop('checked', true);
                     $('.delete_btn').removeClass('d-none');
                     return false;
                 }
                 $('.user-checkbox').prop('checked', false);
                 $('.delete_btn').addClass('d-none');
+                $('.export_btn_div').css('margin-left','0');
             });
 
             $('#delete_checked_val').click(function () {
@@ -188,10 +189,14 @@
             $('.user-checkbox').prop('checked', false);
             $('.delete_btn').addClass('d-none');
             $('#{{$singularTitle}}_delete').val('0');
+            $('.export_btn_div').css('margin-left','0');
             load_records(1);
         });
 
         $('#{{$singularTitle}}_export').change(function () {
+            $('.delete_btn').addClass('d-none');
+            $('#{{$singularTitle}}_delete').val('0');
+            $('.export_btn_div').css('margin-left','0');
             if($(this).val() !== "0") {
                 $('.export_btn').removeClass('d-none');
                 return false;
@@ -244,28 +249,34 @@
             }
 
             if (type === "excel") {
-                $.ajax({
-                    type: "POST",
-                    url: "{{ route($excelExportRoute) }}",
-                    data: {
-                        "_token": "{{ csrf_token() }}",
-                    },
-                    success: function (resp) {
-                        if (resp) {
-
-                        } else {
-                            Toast.fire({
-                                'icon': 'warning',
-                                'title': "Something went wrong!"
-                            });
-                        }
+                axios.get("{{ route($excelExportRoute) }}", {
+                    responseType: 'blob'
+                }).then(resp => {
+                    if (resp.status == 200) {
+                        Toast.fire({
+                            'icon': 'success',
+                            'title': "Excel exported successfully"
+                        });
+                        let blob = new Blob([resp.data], {type: "application/vnd.ms-excel"});
+                        let link = URL.createObjectURL(blob);
+                        let a = document.createElement("a");
+                        a.download = "{{$singularTitle}}-listing.xlsx";
+                        a.href = link;
+                        document.body.appendChild(a);
+                        a.click();
+                        document.body.removeChild(a);
                         $('#export_icon').removeClass('d-none');
                         $('#export_spin').addClass('d-none');
                         $('#export_text').text('Export').prop('disabled', false);
                         $('#reset_export').removeClass('d-none');
                         $('.export_btn').addClass('d-none');
                         $('#{{$singularTitle}}_export').val('0');
-                    },
+                    } else {
+                        Toast.fire({
+                            'icon': 'warning',
+                            'title': "Something went wrong!"
+                        });
+                    }
                 });
             }
         });
@@ -273,6 +284,7 @@
         document.getElementById('reset_export').addEventListener('click',function(){
             $('.export_btn').addClass('d-none');
             $('#{{$singularTitle}}_export').val('0');
+            $('.export_btn_div').css('margin-left','0');
             load_records(1);
         });
 

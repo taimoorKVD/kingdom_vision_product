@@ -1,12 +1,18 @@
 <?php
 
-
 namespace App\Repositories;
+
 
 use App\Http\Helper\Admin\ListingHelper;
 use Illuminate\Support\Facades\DB;
+
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
+
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\Admin\RolesExport;
+
+use PDF;
 
 class RoleRepository
 {
@@ -104,6 +110,31 @@ class RoleRepository
             return response()->json([ 'status' => true, 'msg' => 'Bulk delete completed successfully' ]);
         } catch (\Exception $e) {
             return response()->json([ 'status' => false, 'msg' => $e->getMessage() ]);
+        }
+    }
+
+    public function get_pdf() {
+        try {
+            $data = Role::select('id','name','created_at')->get();
+            set_time_limit(300);
+            $pdf = PDF::loadView('admin.role.pdf.listing', ['data' => $data]);
+            $path = public_path('pdf/');
+            $fileName = time() . '.' . 'pdf';
+
+            /* STORE PDF IN ROOT PUBLIC FOLDER */
+            $pdf->save($path . '/' . $fileName);
+
+            return public_path('pdf/' . $fileName);
+        } catch (\Exception $e) {
+            return ['status' => false, 'data' => $e->getMessage()];
+        }
+    }
+
+    public function get_excel() {
+        try {
+            return Excel::download(new RolesExport, 'roles.xlsx');
+        } catch (\Exception $e) {
+            return ['resp' => false, 'msg' => $e->getMessage()];
         }
     }
 }
