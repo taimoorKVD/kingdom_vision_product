@@ -1,6 +1,6 @@
 @include('admin.layouts.includes.header')
 
-<body class="hold-transition sidebar-mini">
+<body class="hold-transition sidebar-mini" onload="countdowntimes()">
 <div class="wrapper">
 
     <!-- Navbar -->

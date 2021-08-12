@@ -65,6 +65,7 @@ class AppServiceProvider extends ServiceProvider
             config(['app.timezone' => $settings['app_timezone']]);
             config(['app.logo' => $settings['app_logo']]);
             config(['app.favicon' => $settings['app_favicon']]);
+            View::share('curr_timezone', $settings['app_timezone']);
         }
 
         /*

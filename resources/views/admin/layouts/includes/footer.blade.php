@@ -32,6 +32,24 @@
         $('#deleteModal').modal('show');
     }
 </script>
+<script>
+    function countdowntimes() {
+        var livedt = new Date();
+        var h = livedt.getHours();
+        var m = livedt.getMinutes();
+        var s = livedt.getSeconds();
+        m = latestTime(m);
+        s = latestTime(s);
+        document.getElementById('preview').innerHTML =
+            // h + ":" + m + ":" + s;
+            livedt.toLocaleString('en-PK', { timeZone: '{{ $curr_timezone }}' });
+        var t = setTimeout(countdowntimes, 500);
+    }
+    function latestTime(i) {
+        if (i < 10) {i = "0" + i};  // include a zero in front of real clock numbers < 10
+        return i;
+    }
+</script>
 @yield('scripts')
 
 </html>

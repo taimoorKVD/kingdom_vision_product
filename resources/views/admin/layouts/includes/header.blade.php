@@ -32,6 +32,10 @@
             color: #343a40 !important;
         }
 
+        #preview {
+            color:#343a40 !important;
+        }
+
     </style>
 
     @yield('css')

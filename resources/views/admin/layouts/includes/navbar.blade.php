@@ -8,7 +8,13 @@
 
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
-
+        <li class="border-right">
+            <a class="nav-link">
+                <span class="material-icons">
+                    schedule
+                </span>
+                <span id="preview"></span></a>
+        </li>
 
         <!-- Messages Dropdown Menu -->
         <li class="nav-item dropdown">
