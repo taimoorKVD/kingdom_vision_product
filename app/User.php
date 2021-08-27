@@ -20,7 +20,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'phone_prefix', 'phone_number', 'zip', 'state', 'city', 'country', 'profile_photo',
+        'name', 'email', 'password', 'dob', 'age', 'address', 'phone_prefix', 'phone_number', 'zip', 'state', 'city', 'country', 'profile_photo',
         'deactivate_reason', 'status'
     ];
 
@@ -47,5 +47,15 @@ class User extends Authenticatable
         return DB::table('model_has_roles')
             ->where('model_id',$this->id)
             ->delete();
+    }
+
+    public function current_state()
+    {
+        return $this->belongsTo('App\Models\Admin\State','state');
+    }
+
+    public function current_city()
+    {
+        return $this->belongsTo('App\Models\Admin\City','city');
     }
 }

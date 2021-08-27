@@ -8,7 +8,13 @@
 
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
-
+        <li class="border-right">
+            <a class="nav-link">
+                <span class="material-icons">
+                    schedule
+                </span>
+                <span id="preview"></span></a>
+        </li>
 
         <!-- Messages Dropdown Menu -->
         <li class="nav-item dropdown">
@@ -101,16 +107,12 @@
                 <i class="fa fa-user fa-lg"></i>
             </a>
             <div class="dropdown-menu dropdown-menu-right">
-                <a href="{{ route('settings.index') }}" class="dropdown-item">
-                    Settings
-                </a>
-                <div class="dropdown-divider"></div>
-                <a href="{{ route('admin.profile') }}" class="dropdown-item">
-                    View Profile
+                <a href="{{ route('profile.index') }}" class="dropdown-item">
+                    <span class="fa fa-user"> View Profile</span>
                 </a>
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                    Logout
+                    <span class="fa fa-sign-out"> Sign Out</span>
                 </a>
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                     @csrf

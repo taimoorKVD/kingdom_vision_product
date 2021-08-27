@@ -23,7 +23,7 @@ class UserController extends Controller
     public function index()
     {
         return view('admin.user.paginate')
-            ->withUsers($this->userRepository->all())
+            ->withUsers($this->userRepository->all())                                                           
             ->withI((request()->input('page', 1) - 1) * 5);
     }
 

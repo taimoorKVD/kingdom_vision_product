@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Repositories\ElementRepository;
+use App\Models\Admin\Country;
+
+
 
 
 class ElementController extends Controller
@@ -32,7 +35,10 @@ class ElementController extends Controller
      */
     public function create()
     {
-        //
+        // return ($this->elementRepository->fetchAll());
+        // dd($this->elementRepository->fetchAll());
+        return view('admin.elements.create')
+        ->withElements($this->elementRepository->fetchAll());
     }
 
     /**
