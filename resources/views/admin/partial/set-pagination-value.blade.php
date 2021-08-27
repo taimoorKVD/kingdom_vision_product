@@ -134,11 +134,11 @@
                 $('#{{$singularTitle}}_export').val('0');
                 if($(this).val() === "delete") {
                     $('.export_btn_div').css('margin-left','-15%');
-                    $('.user-checkbox').prop('checked', true);
+                    $('.{{$singularTitle}}-checkbox').prop('checked', true);
                     $('.delete_btn').removeClass('d-none');
                     return false;
                 }
-                $('.user-checkbox').prop('checked', false);
+                $('.{{$singularTitle}}-checkbox').prop('checked', false);
                 $('.delete_btn').addClass('d-none');
                 $('.export_btn_div').css('margin-left','0');
             });
@@ -175,9 +175,10 @@
                                     });
                                 }
                                 reload_current_page();
-                                $('.user-checkbox').prop('checked', false);
+                                $('.{{$singularTitle}}-checkbox').prop('checked', false);
                                 $('.delete_btn').addClass('d-none');
                                 $('#{{$singularTitle}}_delete').val('0');
+                                $('.export_btn_div').css('margin-left','0');
                             },
                         });
                     }

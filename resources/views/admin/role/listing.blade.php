@@ -3,7 +3,7 @@
     <tr>
         <th width="80px" class="text-center">
             <div class="form-check">
-                <input class="form-check-input user-checkbox-all" type="checkbox" id="check_all">
+                <input class="form-check-input role-checkbox-all" type="checkbox" id="check_all">
                 <label class="form-check-label" for="check_all"></label>
             </div>
         </th>
@@ -18,7 +18,7 @@
             <tr>
                 <td class="text-center">
                     <div class="form-check">
-                        <input class="form-check-input user-checkbox" name="role_ids[]" type="checkbox" value="{{ $role->id }}" id="role-{{ $role->id }}">
+                        <input class="form-check-input role-checkbox" name="role_ids[]" type="checkbox" value="{{ $role->id }}" id="role-{{ $role->id }}">
                         <label class="form-check-label" for="role-{{ $role->id }}"></label>
                     </div>
                 </td>

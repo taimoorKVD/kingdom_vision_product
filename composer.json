@@ -20,7 +20,9 @@
         "laravelcollective/html": "^6.2",
         "maatwebsite/excel": "^3.1",
         "sendgrid/sendgrid": "~7",
-        "spatie/laravel-permission": "^4.2"
+        "spatie/laravel-permission": "^4.2",
+        "unisharp/laravel-filemanager": "^2.2",
+        "van-ons/laraberg": "^1.1"
     },
     "require-dev": {
         "facade/ignition": "^2.0",

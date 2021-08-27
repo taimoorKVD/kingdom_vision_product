@@ -104,6 +104,24 @@
                         </li>
                     </ul>
                 </li>
+                <li class="nav-item {{ request()->segment(2) == "website-pages" || request()->segment(3) == "general_settings" ? 'menu-open' : null }}">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fa fa-pager"></i>
+                        <p>
+                            Website Pages
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ route('pages.index') }}"
+                               class="nav-link {{ request()->segment(2) == "pages" || request()->segment(2) == "pages" && request()->segment(3) == "create" || request()->segment(3) == "edit" ? 'active' : null }}">
+                                <i class="nav-icon fas fa-file"></i>
+                                <p>Pages</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
             </ul>
         </nav>
         <!-- /.sidebar-menu -->

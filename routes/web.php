@@ -1,16 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
 
 Route::get('/', function () {
     return view('home');
@@ -66,6 +56,14 @@ Route::prefix('admin')->group(function () {
     Route::get('settings/fetch_email_config', 'Admin\SettingController@fetch_email_config')
         ->name('settings.fetch_email_config');
     /* END SETTINGS ROUTES - GENERAL SETTINGS ROUTES */
+
+    /* WEBSITE PAGE MANAGEMENT ROUTES */
+    Route::resource('pages','Admin\PageController');
+    Route::get('/page/listing', 'Admin\PageController@listing')->name('page.listing');
+    Route::post('/page/bulk_delete', 'Admin\PageController@bulk_delete')->name('page.bulk_delete');
+    Route::post('/page/export_pdf', 'Admin\PageController@export_pdf')->name('page.export_pdf');
+    Route::get('/page/export_excel', 'Admin\PageController@export_excel')->name('page.export_excel');
+    /* END WEBSITE PAGE MANAGEMENT ROUTES */
 
     /* PAGINATION ROUTE - FOR ALL MODULES */
     Route::post('/set_pagination', 'Admin\PaginateController@set_pagination')->name('pagination.set_pagination');
