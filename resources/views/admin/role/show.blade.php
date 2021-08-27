@@ -2,18 +2,11 @@
 
 @section('content')
 
+    @include('admin.layouts.includes.page-content-header')
+
     <div class="row">
         <div class="col-lg-12 margin-tb">
             <div class="card card-secondary card-outline">
-                <div class="card-header">
-                    <div class="card-title float-left">
-                        <h3>Role Information</h3>
-                    </div>
-                    <div class="float-right">
-                        <a href="{{ route('roles.index') }}" class="btn btn-info btn-sm">Back</a>
-                    </div>
-                </div>
-
                 <div class="card-body">
                     <div class="row">
                         <div class="col-xs-6 col-sm-6 col-md-6">

@@ -10,6 +10,7 @@
     "require": {
         "php": "^7.2.5",
         "ext-json": "*",
+        "barryvdh/laravel-dompdf": "^0.9.0",
         "fideloper/proxy": "^4.2",
         "fruitcake/laravel-cors": "^1.0",
         "guzzlehttp/guzzle": "^7.3",
@@ -17,6 +18,7 @@
         "laravel/tinker": "^2.0",
         "laravel/ui": "2.4",
         "laravelcollective/html": "^6.2",
+        "maatwebsite/excel": "^3.1",
         "sendgrid/sendgrid": "~7",
         "spatie/laravel-permission": "^4.2"
     },
@@ -44,6 +46,12 @@
         "classmap": [
             "database/seeds",
             "database/factories"
+        ],
+        "files": [
+            "app/Http/Helper/Admin/ListingHelper.php",
+            "app/Http/Helper/Admin/ProfileHelper.php",
+            "app/Http/Helper/Admin/UserManagementHelper.php",
+            "app/Http/Helper/Admin/RoleManagementHelper.php"
         ]
     },
     "autoload-dev": {

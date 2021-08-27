@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Repositories\SettingRepository;
 use App\Models\Admin\Setting;
-use \Carbon\Carbon;
 
 class SettingController extends Controller
 {
@@ -24,9 +23,10 @@ class SettingController extends Controller
             $email_key = $email['type'];
             $email_value = $email;
         }
-        return view ('admin.settings.email.setup')
+        return view ('admin.settings.email-configuration')
             ->withEmailKey($email_key)
-            ->withEmailValue($email_value);
+            ->withEmailValue($email_value)
+            ->withTitle('Settings > Email Configurations');
 
     }
 
@@ -54,7 +54,8 @@ class SettingController extends Controller
     {
         return view('admin.settings.general_settings')
             ->withTimezones($this->settingRepository->get_timezones())
-            ->withCurrentTimezone($this->settingRepository->get_current_timezone());
+            ->withCurrentTimezone($this->settingRepository->get_current_timezone())
+            ->withTitle('Settings > General Settings');;
     }
 
     public function update_general_settings()
@@ -65,5 +66,10 @@ class SettingController extends Controller
         }
         \Artisan::call('cache:clear');
         return ['resp' => true, 'msg' => 'Successfully Updated'];
+    }
+
+    public function fetch_email_config() {
+        return view('admin.settings.load-email-form')
+            ->withEmailValue($this->settingRepository->fetch_email_configurations(request()->all()));
     }
 }

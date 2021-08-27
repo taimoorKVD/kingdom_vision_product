@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,17 +13,42 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return redirect('admin/login');
+    return view('home');
+//    return redirect('admin/login');
 });
 
 Route::prefix('admin')->group(function () {
     Auth::routes();
-    Route::resource('users', 'UserController');
-    Route::resource('roles', 'RoleController');
-    Route::get('dashboard', 'HomeController@index')
+
+    /* USER MANAGEMENT ROUTES */
+    Route::resource('users', 'Admin\UserController');
+    Route::get('/user/listing', 'Admin\UserController@listing')->name('user.listing');
+    Route::post('/user/bulk_delete', 'Admin\UserController@bulk_delete')->name('user.bulk_delete');
+    Route::post('/user/export_pdf', 'Admin\UserController@export_pdf')->name('user.export_pdf');
+    Route::get('/user/export_excel', 'Admin\UserController@export_excel')->name('user.export_excel');
+    /* END USER MANAGEMENT ROUTES */
+
+    /* ROLE MANAGEMENT ROUTES */
+    Route::resource('roles', 'Admin\RoleController');
+    Route::get('/role/listing', 'Admin\RoleController@listing')->name('role.listing');
+    Route::post('/role/bulk_delete', 'Admin\RoleController@bulk_delete')->name('role.bulk_delete');
+    Route::post('/role/export_pdf', 'Admin\RoleController@export_pdf')->name('role.export_pdf');
+    Route::get('/role/export_excel', 'Admin\RoleController@export_excel')->name('role.export_excel');
+    /* END ROLE MANAGEMENT ROUTES */
+
+    /* ADMIN PROFILE ROUTES */
+    Route::resource('profile', 'Admin\ProfileController');
+    Route::post('update-profile', 'Admin\ProfileController@update_profile');
+    Route::post('fetch-states', 'Admin\ProfileController@fetch_states');
+    Route::post('fetch-cities', 'Admin\ProfileController@fetch_cities');
+    /* END ADMIN PROFILE ROUTES */
+
+    /* DASHBOARD ROUTES */
+    Route::get('dashboard', 'DashboardController@index')
         ->name('admin.dashboard');
-    Route::get('profile', 'UserController@editMyProfile')
-        ->name('admin.profile');
+    /* END DASHBOARD ROUTES */
+
+    /* SETTINGS ROUTES - GENERAL SETTINGS ROUTES */
     Route::get('settings', 'Admin\SettingController@index')
         ->name('settings.index');
     Route::post('settings/store', 'Admin\SettingController@store')
@@ -39,5 +63,12 @@ Route::prefix('admin')->group(function () {
         ->name('settings.general_settings');
     Route::post('settings/update_general_settings', 'Admin\SettingController@update_general_settings')
         ->name('settings.update_general_settings');
+    Route::get('settings/fetch_email_config', 'Admin\SettingController@fetch_email_config')
+        ->name('settings.fetch_email_config');
+    /* END SETTINGS ROUTES - GENERAL SETTINGS ROUTES */
+
+    /* PAGINATION ROUTE - FOR ALL MODULES */
+    Route::post('/set_pagination', 'Admin\PaginateController@set_pagination')->name('pagination.set_pagination');
+    /* END SETTINGS ROUTES - GENERAL SETTINGS ROUTES */
 });
 

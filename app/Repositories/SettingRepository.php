@@ -6,10 +6,10 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
 
-use App\Mail\TestMail;
+use App\Mail\TestingMail;
 
-use App\Models\Timezone;
 use App\Models\Admin\Setting;
+use App\Models\Admin\Timezone;
 
 class SettingRepository
 {
@@ -153,13 +153,13 @@ class SettingRepository
             return [ 'resp' => false, 'msg' => $validator->errors()->all(), 'config' => true ];
         }
         $details = [
-            'title' => 'Email from '.config('app.name'),
+            'title' => 'Testing Email from '.config('app.name'),
             'subject' => request()->subject,
             'body' => request()->body,
         ];
 
         try {
-            Mail::to(request()->to)->send(new TestMail($details));
+            Mail::to(request()->to)->send(new TestingMail($details));
             return [ 'resp' => true, 'msg' => response('okay', 200) ];
         } catch (\Exception $e) {
             return ['resp' => false, 'msg' => $e->getMessage(), 'config' => false ];
@@ -196,11 +196,23 @@ class SettingRepository
                     $app_favicon .= request()->app_favicon->store('app_images');
                 }
 
+                $excel = '';
+                if(request()->excel) {
+                    $excel .= 'yes';
+                }
+
+                $pdf = '';
+                if(request()->pdf) {
+                    $pdf .= 'yes';
+                }
+
                 $new_general_settings = [
                     'app_name' => request()->app_name ? request()->app_name : $collection['app_name'],
                     'app_logo' => request()->app_logo ? $app_logo : $collection['app_logo'],
                     'app_favicon' => request()->app_favicon ? $app_favicon : $collection['app_favicon'],
                     'app_timezone' => request()->timezone ? request()->timezone : $collection['timezone'],
+                    'excel' => $excel,
+                    'pdf' => $pdf,
                 ];
                 $data['value'] = json_encode($new_general_settings);
                 Setting::where('name','general_settings')->update($data);
@@ -224,11 +236,23 @@ class SettingRepository
                     $app_favicon .= request()->app_favicon->store('app_images');
                 }
 
+                $excel = '';
+                if(request()->excel) {
+                    $excel .= 'yes';
+                }
+
+                $pdf = '';
+                if(request()->pdf) {
+                    $pdf .= 'yes';
+                }
+
                 $general_settings = [
                     'app_name' => request()->app_name ? request()->app_name : 'Laravel',
                     'app_logo' => request()->app_logo ? $app_logo : 'public/default_images/not_uploaded.png',
                     'app_favicon' => request()->app_favicon ? $app_favicon : 'public/default_images/not_uploaded.png',
                     'app_timezone' => request()->timezone ? request()->timezone : 'UTC',
+                    'excel' => $excel,
+                    'pdf' => $pdf,
                 ];
                 $data['name'] = 'general_settings';
                 $data['value'] = json_encode($general_settings);

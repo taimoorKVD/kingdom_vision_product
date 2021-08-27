@@ -1,6 +1,11 @@
 @extends('admin.layouts.includes.dashboard')
 
 @section('content')
+    <style>
+        .select2-container {
+            width: 87% !important;
+        }
+    </style>
     @php
         $logo_url = url('storage/app/'.config('app.logo'));
         $favicon_url = url('storage/app/'.config('app.favicon'));
@@ -9,34 +14,40 @@
     <!-- col-md-12 -->
     <div class="col-md-12">
 
-        @include('admin.partial.alert')
+        @include('admin.layouts.includes.page-content-header')
 
         <div class="card card-secondary card-outline">
-            <div class="card-header">
-                <h5>General Settings</h5>
-            </div>
             <form id="general_settings_form" enctype="multipart/form-data">
                 @csrf
                 <div class="card-body">
 
                     <div class="row">
-                        <div class="form-group col-md-6">
+                        <div class="col-md-6">
                             <table class="table table-borderless w-100">
                                 <tr>
                                     <th>
-                                        <label>Name:</label>
+                                        <label for="app_name">App Name:</label>
                                     </th>
                                     <td>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text fa fa-id-badge"></span>
+                                            </div>
                                         <input type="text" id="app_name" class="form-control" name="app_name"
                                                value="{{ !empty(config('app.name')) ? config('app.name') : '' }}">
+                                        </div>
                                     </td>
                                 </tr>
 
                                 <tr>
                                     <th>
-                                        <label>Timezone:</label>
+                                        <label for="timezone">Timezone:</label>
                                     </th>
                                     <td>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text fa fa-clock"></span>
+                                            </div>
                                         <select id="timezone" name="timezone" class="form-control timezone_dropdown">
                                             @if($timezones->count() > 0)
                                                 @foreach($timezones as $timezone)
@@ -48,6 +59,7 @@
                                                 @endforeach
                                             @endif
                                         </select>
+                                        </div>
                                     </td>
                                 </tr>
                                 <tr>
@@ -94,14 +106,45 @@
                                 </tr>
                             </table>
                         </div>
+                        <div class="col-sm-4 border-left">
+                            <table class="table table-borderless w-100">
+                                <tr>
+                                    <th width="20px">
+                                        <label for="excel">Excel:</label>
+                                    </th>
+                                    <td>
+                                        <div class="custom-control custom-switch">
+                                            <input type="checkbox" class="custom-control-input" id="excel" name="excel" value="1" {{ isset($settings['excel']) && !empty($settings['excel']) && $settings['excel'] == "yes" ? 'checked' : '' }}>
+                                            <label class="custom-control-label" for="excel"></label>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th width="20px">
+                                        <label for="pdf">Pdf:</label>
+                                    </th>
+                                    <td>
+                                        <div class="custom-control custom-switch">
+                                            <input type="checkbox" class="custom-control-input" id="pdf" name="pdf" value="1" {{ isset($settings['pdf']) && !empty($settings['pdf']) && $settings['pdf'] == "yes" ? 'checked' : '' }}>
+                                            <label class="custom-control-label" for="pdf"></label>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
                     </div>
 
                 </div>
                 <div class="card-footer d-flex justify-content-end">
-                    <button type="submit" class="btn btn-success btn-sm"
+                    <button type="submit" class="btn btn-secondary btn-wd"
                             id="submit_gen_set_form">
                         <span class="fas fa-circle-notch fa-spin d-none" id="save-spinner"></span>
-                        <span id="save-text">Update</span>
+                        <span id="save-text">
+                            <span class="material-icons">
+                                update
+                            </span>
+                            Update
+                        </span>
                     </button>
                 </div>
             </form>
