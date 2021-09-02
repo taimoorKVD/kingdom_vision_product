@@ -1,7 +1,7 @@
 @extends('admin.layouts.includes.dashboard')
 
 @section('content')
-    <link rel="stylesheet" href="{{asset('vendor/laraberg/css/laraberg.css')}}">
+    <link rel="stylesheet" href="{{asset('admin-panel/vendor/laraberg/css/laraberg.css')}}">
 
     @include('admin.layouts.includes.page-content-header')
 
@@ -20,4 +20,4 @@
 <script src="https://unpkg.com/moment@2.22.1/min/moment.min.js"></script>
 <script src="https://unpkg.com/react@16.8.6/umd/react.production.min.js"></script>
 <script src="https://unpkg.com/react-dom@16.8.6/umd/react-dom.production.min.js"></script>
-<script src="{{ asset('vendor/laraberg/js/laraberg.js') }}"></script>
+<script src="{{ asset('admin-panel/vendor/laraberg/js/laraberg.js') }}"></script>

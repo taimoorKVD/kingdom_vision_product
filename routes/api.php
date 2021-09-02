@@ -17,3 +17,8 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+/** PRODUCTS API ROUTES **/
+Route::apiResource('products', 'Website\Api\ProductController');
+Route::apiResource('checkout', 'Website\Api\CheckoutController');
+/** END PRODUCTS API ROUTES **/

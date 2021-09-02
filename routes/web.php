@@ -2,11 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('home');
-//    return redirect('admin/login');
-});
-
+/* ADMIN PANEL ROUTES */
 Route::prefix('admin')->group(function () {
     Auth::routes();
 
@@ -69,4 +65,22 @@ Route::prefix('admin')->group(function () {
     Route::post('/set_pagination', 'Admin\PaginateController@set_pagination')->name('pagination.set_pagination');
     /* END SETTINGS ROUTES - GENERAL SETTINGS ROUTES */
 });
+/* END ADMIN PANEL ROUTES */
 
+/* WEBSITE ROUTES */
+/*
+Route::get('/', function () {
+    return view('website.home.index');
+});
+Route::get('/{any}', function () {
+        return view('website.home.index');
+    })->where('any', '.*');
+//    })->where( 'any', '^[A-Za-z/\0-9_.]+$' );
+*/
+Route::get('/', function () {
+    return redirect('/home');
+});
+Route::get('/{any?}', function () {
+    return view('website.home.index');
+})->where('any', '^(?!api\/)[\/\w\.-]*');
+/* END WEBSITE ROUTES */

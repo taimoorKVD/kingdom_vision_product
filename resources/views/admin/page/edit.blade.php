@@ -6,7 +6,7 @@
             width: 87% !important;
         }
     </style>
-    <link rel="stylesheet" href="{{asset('vendor/laraberg/css/laraberg.css')}}">
+    <link rel="stylesheet" href="{{asset('admin-panel/vendor/laraberg/css/laraberg.css')}}">
 
     @include('admin.layouts.includes.page-content-header')
 
@@ -73,7 +73,7 @@
 @section('scripts')
     <script src="https://unpkg.com/react@16.8.6/umd/react.production.min.js"></script>
     <script src="https://unpkg.com/react-dom@16.8.6/umd/react-dom.production.min.js"></script>
-    <script src="{{ asset('vendor/laraberg/js/laraberg.js') }}"></script>
+    <script src="{{ asset('admin-panel/vendor/laraberg/js/laraberg.js') }}"></script>
     <script>
         $(document).ready(function () {
             $('.menu_type').select2();
