@@ -175,7 +175,7 @@
                         customer: this.customer,
                         products: this.basket
                     });
-                    this.$store.dispatch('emptyBasket');
+                    await this.$store.dispatch('emptyBasket');
                     this.purchaseAttempted = true;
                 } catch(err) {
                     this.errors = err.response && err.response.data.errors;

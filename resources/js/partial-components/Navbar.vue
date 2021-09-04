@@ -25,11 +25,23 @@
                     </ul>
                     <form class="d-flex" v-if="itemsInBasket">
                         <router-link class="btn btn-outline-dark" :to="{name:'Basket'}">
-                            <i class="bi-cart-fill me-1"> </i>
-                            Basket
-                            <span class="badge bg-dark text-white ms-1 rounded-pill">{{ itemsInBasket }}</span>
+                            <i class="bi-cart-fill"> </i>
+                            <span class="badge bg-dark text-white rounded-pill">{{ itemsInBasket }}</span>
                         </router-link>
                     </form>
+                    <div class="ml-1"  v-if="!isLoggedIn">
+                        <router-link class="btn btn-outline-dark" :to="{name:'login'}">
+                        Login
+                        </router-link>
+                        <router-link class="btn btn-outline-dark" :to="{name:'register'}">
+                            Register
+                        </router-link>
+                    </div>
+                    <div class="ml-1" v-if="isLoggedIn">
+                        <a href="javascript:void(0)" class="btn btn-outline-dark" @click.prevent="logout">
+                            Logout
+                        </a>
+                    </div>
                 </div>
             </div>
         </nav>
@@ -38,7 +50,7 @@
 </template>
 
 <script>
-    import { mapGetters } from "vuex";
+    import {mapGetters, mapState} from "vuex";
     export default {
         name: "navbar.vue",
         data() {
@@ -47,9 +59,22 @@
             };
         },
         computed: {
-            ...mapGetters({
-                itemsInBasket: 'itemsInBasket'
+            ...mapState({
+                isLoggedIn: 'isLoggedIn',
             }),
+            ...mapGetters({
+                itemsInBasket: 'itemsInBasket',
+            }),
+        },
+        methods: {
+          async logout() {
+              try {
+                  await axios.post("/kingdom_vision/admin/logout");
+                  await this.$store.dispatch("logout");
+              } catch(error) {
+                  await this.$store.dispatch("logout");
+              }
+          }
         },
     }
 </script>

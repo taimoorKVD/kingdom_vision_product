@@ -17,6 +17,8 @@ import Basket from "./basket-components/Basket";
 import FatalError from "./shared/components/FatalError";
 import ValidationError from "./shared/components/ValidationError";
 import Success from "./shared/components/Success";
+import Login from "./auth-components/Login";
+import Register from "./auth-components/Register";
 
 Vue.use(Vuex);
 Vue.use(VueRouter);
@@ -50,6 +52,16 @@ let routes = [
         component: Basket,
         name: "Basket"
     },
+    {
+        path: "/kingdom_vision/auth/login",
+        component: Login,
+        name: "login"
+    },
+    {
+        path: "/kingdom_vision/auth/register",
+        component: Register,
+        name: "register"
+    },
 ];
 
 const router = new VueRouter({
@@ -59,12 +71,25 @@ const router = new VueRouter({
 
 const store = new Vuex.Store(StoreDefinition);
 
+window.axios.interceptors.response.use(
+    response => {
+        return response;
+    },
+    error => {
+        if (401 === error.response.status) {
+            store.dispatch("logout");
+        }
+        return Promise.reject(error);
+    }
+);
+
 const app = new Vue({
     el: '#app',
     router,
     store,
     beforeCreate() {
         this.$store.dispatch("loadStoredState");
+        this.$store.dispatch("loadUser");
     },
 });
 

@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /* ADMIN PANEL ROUTES */
@@ -77,6 +78,11 @@ Route::get('/{any}', function () {
     })->where('any', '.*');
 //    })->where( 'any', '^[A-Za-z/\0-9_.]+$' );
 */
+
+Route::middleware('auth')->get('/user', function (Request $request) {
+    return $request->user();
+});
+
 Route::get('/', function () {
     return redirect('/home');
 });
