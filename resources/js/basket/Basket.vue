@@ -102,15 +102,15 @@
                             </div>
                             <div class="card-body">
                                 <transition-group name="fade" v-if="itemsInBasket">
-                                    <div v-for="item in basket" :key="item.product.id">
+                                    <div v-for="item in basket" :key="item.id">
                                         <div class="pt-2 pb-2 d-flex justify-content-between">
                                 <span>
-                                    <router-link :to="{ name: 'ProductShow', params: {id: item.product.id} }" class="text-secondary text-decoration-none"> {{ item.product.name }} </router-link>
+                                    <router-link :to="{ name: 'ProductShow', params: {id: item.id} }" class="text-secondary text-decoration-none"> {{ item.name }} </router-link>
                                 </span>
-                                            <span class="font-weight-bold">${{ item.product.price}}</span>
+                                            <span class="font-weight-bold">${{ item.price}}</span>
                                         </div>
                                         <div class="pt-2 pb-2 text-right">
-                                            <button class="btn btn-sm btn-outline-secondary" @click="$store.dispatch('removeFromBasket', item.product.id)">
+                                            <button class="btn btn-sm btn-outline-secondary" @click="removeFromBasket(item.id)">
                                                 <i class="bi-trash"> </i>
                                             </button>
                                         </div>
@@ -137,6 +137,7 @@
 <script>
     import { mapState, mapGetters } from "vuex";
     import validationError from "../shared/mixins/validationError";
+    import {isLoggedIn} from "../shared/utilities/auth";
     export default {
         name: "Basket.vue",
         mixins:[validationError],
@@ -173,7 +174,8 @@
                 try {
                     await axios.post('/kingdom_vision/api/checkout',{
                         customer: this.customer,
-                        products: this.basket
+                        products: this.basket,
+                        user: this.$store.getters.loggedUser
                     });
                     await this.$store.dispatch('emptyBasket');
                     this.purchaseAttempted = true;
@@ -181,7 +183,16 @@
                     this.errors = err.response && err.response.data.errors;
                 }
                 this.loading = false;
-            }
+            },
+            removeFromBasket(id) {
+                this.$store.dispatch('removeFromBasket', id);
+                if(isLoggedIn()) {
+                    axios.post('/kingdom_vision/api/cart/delete', {
+                        product: id,
+                        user: this.$store.getters.loggedUser
+                    });
+                }
+            },
         }
     }
 </script>

@@ -46,6 +46,9 @@
 </template>
 
 <script>
+    import {mapGetters, mapState} from "vuex";
+    import {isLoggedIn} from "../shared/utilities/auth";
+
     export default {
         name: "Show.vue",
 
@@ -74,13 +77,24 @@
             },
         },
         methods: {
-            addToBasket() {
-                this.$store.dispatch('addToBasket', {
-                    product: this.product,
-                });
+            async addToBasket() {
+                await this.$store.dispatch('addToBasket', this.product);
+
+                if(isLoggedIn()) {
+                    await axios.post('/kingdom_vision/api/cart',{
+                        product: this.product,
+                        user: this.$store.getters.loggedUser
+                    });
+                }
             },
             removeFromBasket() {
               this.$store.dispatch('removeFromBasket', this.product.id);
+                if(isLoggedIn()) {
+                    axios.post('/kingdom_vision/api/cart/delete', {
+                        product: this.product,
+                        user: this.$store.getters.loggedUser
+                    });
+                }
             },
         },
     }

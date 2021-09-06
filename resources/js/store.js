@@ -15,7 +15,7 @@ export default {
             state.basket.items.push(payload);
         },
         removeFromBasket(state, payload) {
-            state.basket.items = state.basket.items.filter(item => item.product.id !== payload);
+            state.basket.items = state.basket.items.filter(item => item.id !== payload);
         },
         setUser(state, payload) {
             state.user = payload;
@@ -48,9 +48,17 @@ export default {
             if(isLoggedIn()) {
                 try {
                     const user = (await axios.get('/kingdom_vision/user')).data;
-                    console.log(user);
+                    console.log(user.id);
                     commit("setUser", user);
                     commit("setLoggedIn", true);
+                    if(user) {
+                        await axios.get(`/kingdom_vision/api/cart/${user.id}`)
+                            .then(
+                                response => {
+                                    commit("setBasket", { items: response.data });
+                                }
+                            );
+                    }
                 }
                 catch(error) {
                     dispatch("logout");
@@ -65,10 +73,11 @@ export default {
     },
     getters: {
         itemsInBasket: (state) => state.basket.items.length,
+        loggedUser: (state) => state.user,
         alreadyInBasket(state) {
             return function (id) {
                 return state.basket.items.reduce(
-                    (result, item) => result || item.product.id === id,
+                    (result, item) => result || item.id === id,
                     false
                 );
             }
