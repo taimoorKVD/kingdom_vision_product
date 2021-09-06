@@ -8,17 +8,17 @@ import StoreDefinition from './store';
 
 import Home from './components/Home.vue'
 import About from "./components/About";
-import Navbar from "./partial-components/Navbar";
-import Footer from "./partial-components/Footer";
-import Product from "./product-components/Index";
-import ProductListing from "./product-components/Listing";
-import ProductShow from "./product-components/Show";
-import Basket from "./basket-components/Basket";
+import Navbar from "./partial/Navbar";
+import Footer from "./partial/Footer";
+import Product from "./product/Index";
+import ProductListing from "./product/Listing";
+import ProductShow from "./product/Show";
+import Basket from "./basket/Basket";
 import FatalError from "./shared/components/FatalError";
 import ValidationError from "./shared/components/ValidationError";
 import Success from "./shared/components/Success";
-import Login from "./auth-components/Login";
-import Register from "./auth-components/Register";
+import Login from "./auth/Login";
+import Register from "./auth/Register";
 
 Vue.use(Vuex);
 Vue.use(VueRouter);

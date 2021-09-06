@@ -1,17 +1,17 @@
 <template>
     <div class="card h-100">
-        <!-- product-components image-->
+        <!-- product image-->
         <img class="card-img-top" src="http://lorempixel.com/400/200/sports" alt="..."/>
-        <!-- product-components details-->
+        <!-- product details-->
         <div class="card-body p-4">
             <div class="text-center">
-                <!-- product-components name-->
+                <!-- product name-->
                 <h5 class="fw-bolder">{{ name }}</h5>
-                <!-- product-components price-->
+                <!-- product price-->
                 ${{ price }}
             </div>
         </div>
-        <!-- product-components actions-->
+        <!-- product actions-->
         <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
             <div class="text-center">
                 <router-link :to="{ name: 'ProductShow', params: { id } }" class="btn btn-outline-dark mt-auto">

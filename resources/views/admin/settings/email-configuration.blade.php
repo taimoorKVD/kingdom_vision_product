@@ -171,11 +171,11 @@
 @endsection
 
 @section('css')
-    <link href="{{ asset('css/step-progress-bar.css') }}" rel="stylesheet">
+    <link href="{{ asset('admin-panel/css/step-progress-bar.css') }}" rel="stylesheet">
 @endsection
 
 @section('scripts')
-    <script src="{{ asset('js/step-progress-bar.js') }}"></script>
+    <script src="{{ asset('admin-panel/js/step-progress-bar.js') }}"></script>
     <script>
         $(document).ready(function () {
             /*

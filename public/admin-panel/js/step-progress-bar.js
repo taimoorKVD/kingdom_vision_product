@@ -1,9 +1,9 @@
 
 $(document).ready(function () {
-    var currentGfgStep, nextGfgStep, previousGfgStep;
-    var opacity;
-    var current = 1;
-    var steps = $("fieldset").length;
+    let currentGfgStep, nextGfgStep, previousGfgStep;
+    let opacity;
+    let current = 1;
+    let steps = $("fieldset").length;
 
     setProgressBar(current);
 
@@ -57,7 +57,7 @@ $(document).ready(function () {
     });
 
     function setProgressBar(currentStep) {
-        var percent = parseFloat(100 / steps) * current;
+        let percent = parseFloat(100 / steps) * current;
         percent = percent.toFixed();
         $(".progress-bar")
             .css("width", percent + "%")

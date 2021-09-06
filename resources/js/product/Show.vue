@@ -12,14 +12,14 @@
         </div>
         <div v-else>
             <div class="container mt-4 mb-3">
-                    <!-- product-components details-->
+                    <!-- product details-->
                         <div class="text-center">
-                            <!-- product-components name-->
+                            <!-- product name-->
                             <h5 class="fw-bolder">{{ product.name }}</h5>
-                            <!-- product-components price-->
+                            <!-- product price-->
                             ${{ product.price }}
                         </div>
-                    <!-- product-components actions-->
+                    <!-- product actions-->
                         <div class="text-center mt-2">
                             <div v-if="alreadyInBasket">
                                 <router-link :to="{ name: 'Home' }" class="btn btn-outline-dark mt-auto">
